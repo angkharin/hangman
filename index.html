@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --menu-color: #ffffff;
+    --menu-hover: #57c2ff;
+    --panel-bg: #0d1420;
+    --panel-border: #57c2ff;
+    --panel-shade: #060a10;
+  }
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+  }
+
+  body {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: "Niramit", sans-serif;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    aspect-ratio: 1376 / 768;
+    background-image: url("image/main.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  nav.menu {
+    position: absolute;
+    inset: 0;
+  }
+  .menu a {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    font-family: "Niramit", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--menu-color);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    font-size: clamp(11px, 2vw, 22px);
+    padding-bottom: 4px;
+    transition: color 0.15s ease, transform 0.15s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu a:hover,
+  .menu a:focus-visible {
+    color: var(--menu-hover);
+    transform: translate(-50%, -105%);
+  }
+  .menu a:focus-visible {
+    outline: 1px solid var(--menu-hover);
+    outline-offset: 4px;
+  }
+
+  .item-2 { margin-top: -30px; top: 30.0%; left: 65.0%; margin-left: 130px; }
+  .item-3 { margin-top: -30px; top: 37.6%; left: 62.6%; margin-left: 130px;}
+  .item-4 { margin-top: -20px; top: 43.6%; left: 59.9%; margin-left: 130px;}
+  .item-5 { margin-top: -10px; top: 50.0%; left: 61.2%; margin-left: 130px;}
+  .item-6 { margin-top: -10px; top: 57.3%; left: 64.0%; margin-left: 130px;}
+
+  /* ===== Exit confirmation dialog ===== */
+  .exit-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 10, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 10;
+  }
+  .exit-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .exit-panel {
+    position: relative;
+    width: min(78%, 380px);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: clamp(20px, 4vw, 32px) clamp(18px, 4vw, 28px);
+    text-align: center;
+    transform: translateY(8px) scale(0.97);
+    transition: transform 0.18s ease;
+  }
+  .exit-backdrop.is-open .exit-panel {
+    transform: translateY(0) scale(1);
+  }
+  .exit-panel::before,
+  .exit-panel::after,
+  .exit-panel span.corner-tl,
+  .exit-panel span.corner-br {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--panel-border);
+  }
+  .exit-panel::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .exit-panel::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+  .exit-title {
+    color: #ffffff;
+    font-size: clamp(15px, 2.6vw, 19px);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    margin-bottom: clamp(18px, 3.5vw, 26px);
+  }
+  .exit-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  .exit-actions button {
+    font-family: "Niramit", sans-serif;
+    font-weight: 500;
+    font-size: clamp(12px, 2.2vw, 15px);
+    letter-spacing: 0.02em;
+    padding: 9px 22px;
+    border: 1px solid var(--panel-border);
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .exit-actions button:hover,
+  .exit-actions button:focus-visible {
+    outline: none;
+  }
+  .exit-confirm {
+    background: var(--panel-border);
+    color: var(--panel-shade);
+  }
+  .exit-confirm:hover,
+  .exit-confirm:focus-visible {
+    background: #82d4ff;
+  }
+  .exit-cancel:hover,
+  .exit-cancel:focus-visible {
+    background: rgba(87, 194, 255, 0.15);
+  }
+
+  /* ===== Responsive: Tablet ===== */
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 10px;
+        padding: 5px 10px;
+      }
+      main {
+        padding: 25px 15px;
+      }
+      section {
+        padding: 22px 20px;
+      }
+      .gallery {
+        justify-content: center;
+      }
+    }
+
+    /* ===== Responsive: Mobile ===== */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+      section h2 {
+        font-size: 1.15rem;
+      }
+      .gallery figure {
+        width: 100%;
+      }
+      .gallery img {
+        height: 200px;
+      }
+    }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <nav class="menu" aria-label="เมนูหลัก">
+    <a href="#" class="item-2">เล่นเกม</a>
+    <a href="#" class="item-3">คู่มือการเล่น</a>
+    <a href="#" class="item-4">ดูอันดับ</a>
+    <a href="#" class="item-5">ประวัติผู้สร้างเกม</a>
+    <a href="#" class="item-6" id="exitBtn">ออกจากเกม</a>
+  </nav>
+
+  <div class="exit-backdrop" id="exitBackdrop">
+    <div class="exit-panel" role="dialog" aria-modal="true" aria-labelledby="exitTitle">
+      <p class="exit-title" id="exitTitle">ยืนยันว่าคุณต้องการออกจากเกมใช่หรือไม่?</p>
+      <div class="exit-actions">
+        <button type="button" class="exit-confirm" id="exitConfirm">ใช่, ออกจากเกม</button>
+        <button type="button" class="exit-cancel" id="exitCancel">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const exitBtn = document.getElementById('exitBtn');
+  const exitBackdrop = document.getElementById('exitBackdrop');
+  const exitConfirm = document.getElementById('exitConfirm');
+  const exitCancel = document.getElementById('exitCancel');
+
+  function openExitDialog(e) {
+    e.preventDefault();
+    exitBackdrop.classList.add('is-open');
+    exitCancel.focus();
+  }
+  function closeExitDialog() {
+    exitBackdrop.classList.remove('is-open');
+    exitBtn.focus();
+  }
+
+  exitBtn.addEventListener('click', openExitDialog);
+  exitCancel.addEventListener('click', closeExitDialog);
+  exitBackdrop.addEventListener('click', (e) => {
+    if (e.target === exitBackdrop) closeExitDialog();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && exitBackdrop.classList.contains('is-open')) closeExitDialog();
+  });
+
+  exitConfirm.addEventListener('click', () => {
+    // TODO: เปลี่ยนเป็น action จริง เช่น window.close() หรือ redirect ไปหน้าอื่น
+    exitConfirm.textContent = 'กำลังออก...';
+  });
+</script>
+
+</body>
+</html>
