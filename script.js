@@ -1,9 +1,8 @@
-// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "ค่าจริงของคุณ",
+  authDomain: "ชื่อโปรเจกต์จริง.firebaseapp.com",
+  projectId: "ชื่อโปรเจกต์จริง",
+  storageBucket: "ค่าจริง",
+  messagingSenderId: "ค่าจริง",
+  appId: "ค่าจริง"
 };
