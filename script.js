@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "ค่าจริง",
-  authDomain: "ค่าจริง",
-  projectId: "ค่าจริง",
-  storageBucket: "ค่าจริง",
-  messagingSenderId: "ค่าจริง",
-  appId: "ค่าจริง"
+  apiKey: "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
+  authDomain: "hangman-a1562.firebaseapp.com",
+  projectId: "hangman-a1562",
+  storageBucket: "hangman-a1562.firebasestorage.app",
+  messagingSenderId: "1025680486155",
+  appId: "1:1025680486155:web:c1ddb3c5c98471b8f27c0e"
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
