@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -29,6 +30,7 @@ const firebaseConfig = {
 // ========================================
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
 
@@ -36,17 +38,29 @@ const auth = getAuth(app);
 // GET ELEMENTS
 // ========================================
 
-const playGameBtn = document.getElementById("playGameBtn");
+const playGameBtn =
+  document.getElementById("playGameBtn");
 
-const loginBackdrop = document.getElementById("loginBackdrop");
-const loginClose = document.getElementById("loginClose");
+const loginBackdrop =
+  document.getElementById("loginBackdrop");
 
-const loginTitle = document.getElementById("loginTitle");
-const loginDescription = document.getElementById("loginDescription");
+const loginClose =
+  document.getElementById("loginClose");
 
-const authName = document.getElementById("authName");
-const authPassword = document.getElementById("authPassword");
-const confirmPassword = document.getElementById("confirmPassword");
+const loginTitle =
+  document.getElementById("loginTitle");
+
+const loginDescription =
+  document.getElementById("loginDescription");
+
+const authName =
+  document.getElementById("authName");
+
+const authPassword =
+  document.getElementById("authPassword");
+
+const confirmPassword =
+  document.getElementById("confirmPassword");
 
 const confirmPasswordWrap =
   document.getElementById("confirmPasswordWrap");
@@ -72,6 +86,7 @@ const toggleConfirmPassword =
 // ========================================
 
 let isSignupMode = false;
+
 let currentUser = null;
 
 
@@ -80,7 +95,9 @@ let currentUser = null;
 // ========================================
 
 function usernameToEmail(username) {
+
   return `${username.trim().toLowerCase()}@hangman.local`;
+
 }
 
 
@@ -97,21 +114,48 @@ function openLoginModal() {
   loginStatus.textContent = "";
 
   authName.value = "";
+
   authPassword.value = "";
+
   confirmPassword.value = "";
 
   authPassword.type = "password";
+
   confirmPassword.type = "password";
 
+
+  // กลับมาเป็นสถานะซ่อนรหัสผ่าน
+
   if (togglePassword) {
-    togglePassword.textContent = "👁";
+
+    togglePassword.classList.remove(
+      "show-password"
+    );
+
+    togglePassword.setAttribute(
+      "aria-label",
+      "แสดงรหัสผ่าน"
+    );
+
   }
+
 
   if (toggleConfirmPassword) {
-    toggleConfirmPassword.textContent = "👁";
+
+    toggleConfirmPassword.classList.remove(
+      "show-password"
+    );
+
+    toggleConfirmPassword.setAttribute(
+      "aria-label",
+      "แสดงรหัสผ่าน"
+    );
+
   }
 
+
   authName.focus();
+
 }
 
 
@@ -124,6 +168,7 @@ function closeLoginModal() {
   if (!loginBackdrop) return;
 
   loginBackdrop.classList.remove("is-open");
+
 }
 
 
@@ -133,23 +178,28 @@ function closeLoginModal() {
 
 if (playGameBtn) {
 
-  playGameBtn.addEventListener("click", function (event) {
+  playGameBtn.addEventListener(
+    "click",
+    function (event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    if (currentUser) {
 
-      // ถ้า Login แล้ว
-      window.location.href = "categories.html";
+      if (currentUser) {
 
-    } else {
+        // Login แล้ว
+        window.location.href =
+          "categories.html";
 
-      // ถ้ายังไม่ได้ Login
-      openLoginModal();
+      } else {
+
+        // ยังไม่ได้ Login
+        openLoginModal();
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -160,11 +210,14 @@ if (playGameBtn) {
 
 if (loginClose) {
 
-  loginClose.addEventListener("click", function () {
+  loginClose.addEventListener(
+    "click",
+    function () {
 
-    closeLoginModal();
+      closeLoginModal();
 
-  });
+    }
+  );
 
 }
 
@@ -175,15 +228,18 @@ if (loginClose) {
 
 if (loginBackdrop) {
 
-  loginBackdrop.addEventListener("click", function (event) {
+  loginBackdrop.addEventListener(
+    "click",
+    function (event) {
 
-    if (event.target === loginBackdrop) {
+      if (event.target === loginBackdrop) {
 
-      closeLoginModal();
+        closeLoginModal();
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -194,57 +250,70 @@ if (loginBackdrop) {
 
 if (toggleSignup) {
 
-  toggleSignup.addEventListener("click", function () {
+  toggleSignup.addEventListener(
+    "click",
+    function () {
 
-    isSignupMode = !isSignupMode;
+      isSignupMode = !isSignupMode;
 
-    loginStatus.textContent = "";
+      loginStatus.textContent = "";
 
-    if (isSignupMode) {
 
-      // ==================================
-      // SIGN UP MODE
-      // ==================================
+      if (isSignupMode) {
 
-      loginTitle.textContent = "สร้างบัญชี";
+        // ==================================
+        // SIGN UP MODE
+        // ==================================
 
-      loginDescription.textContent =
-        "สร้างบัญชีเพื่อเริ่มเล่นเกม Hangman";
+        loginTitle.textContent =
+          "สร้างบัญชี";
 
-      emailLogin.textContent = "SIGN UP";
+        loginDescription.textContent =
+          "สร้างบัญชีเพื่อเริ่มเล่นเกม Hangman";
 
-      toggleSignup.textContent =
-        "มีบัญชีแล้ว? เข้าสู่ระบบ";
+        emailLogin.textContent =
+          "SIGN UP";
 
-      confirmPasswordWrap.classList.remove("hidden");
+        toggleSignup.textContent =
+          "มีบัญชีแล้ว? เข้าสู่ระบบ";
 
-      authPassword.autocomplete =
-        "new-password";
+        confirmPasswordWrap.classList.remove(
+          "hidden"
+        );
 
-    } else {
+        authPassword.autocomplete =
+          "new-password";
 
-      // ==================================
-      // SIGN IN MODE
-      // ==================================
 
-      loginTitle.textContent = "เข้าสู่ระบบ";
+      } else {
 
-      loginDescription.textContent =
-        "เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman";
+        // ==================================
+        // SIGN IN MODE
+        // ==================================
 
-      emailLogin.textContent = "SIGN IN";
+        loginTitle.textContent =
+          "เข้าสู่ระบบ";
 
-      toggleSignup.textContent =
-        "ยังไม่มีบัญชี? สร้างบัญชี";
+        loginDescription.textContent =
+          "เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman";
 
-      confirmPasswordWrap.classList.add("hidden");
+        emailLogin.textContent =
+          "SIGN IN";
 
-      authPassword.autocomplete =
-        "current-password";
+        toggleSignup.textContent =
+          "ยังไม่มีบัญชี? สร้างบัญชี";
+
+        confirmPasswordWrap.classList.add(
+          "hidden"
+        );
+
+        authPassword.autocomplete =
+          "current-password";
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -255,33 +324,47 @@ if (toggleSignup) {
 
 if (togglePassword) {
 
-  togglePassword.addEventListener("click", function () {
+  togglePassword.addEventListener(
+    "click",
+    function () {
 
-    if (authPassword.type === "password") {
+      if (
+        authPassword.type === "password"
+      ) {
 
-      authPassword.type = "text";
+        // แสดงรหัสผ่าน
 
-      togglePassword.textContent = "🙈";
+        authPassword.type = "text";
 
-      togglePassword.setAttribute(
-        "aria-label",
-        "ซ่อนรหัสผ่าน"
-      );
+        togglePassword.classList.add(
+          "show-password"
+        );
 
-    } else {
+        togglePassword.setAttribute(
+          "aria-label",
+          "ซ่อนรหัสผ่าน"
+        );
 
-      authPassword.type = "password";
 
-      togglePassword.textContent = "👁";
+      } else {
 
-      togglePassword.setAttribute(
-        "aria-label",
-        "แสดงรหัสผ่าน"
-      );
+        // ซ่อนรหัสผ่าน
+
+        authPassword.type = "password";
+
+        togglePassword.classList.remove(
+          "show-password"
+        );
+
+        togglePassword.setAttribute(
+          "aria-label",
+          "แสดงรหัสผ่าน"
+        );
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -292,33 +375,47 @@ if (togglePassword) {
 
 if (toggleConfirmPassword) {
 
-  toggleConfirmPassword.addEventListener("click", function () {
+  toggleConfirmPassword.addEventListener(
+    "click",
+    function () {
 
-    if (confirmPassword.type === "password") {
+      if (
+        confirmPassword.type === "password"
+      ) {
 
-      confirmPassword.type = "text";
+        // แสดงรหัสผ่าน
 
-      toggleConfirmPassword.textContent = "🙈";
+        confirmPassword.type = "text";
 
-      toggleConfirmPassword.setAttribute(
-        "aria-label",
-        "ซ่อนรหัสผ่าน"
-      );
+        toggleConfirmPassword.classList.add(
+          "show-password"
+        );
 
-    } else {
+        toggleConfirmPassword.setAttribute(
+          "aria-label",
+          "ซ่อนรหัสผ่าน"
+        );
 
-      confirmPassword.type = "password";
 
-      toggleConfirmPassword.textContent = "👁";
+      } else {
 
-      toggleConfirmPassword.setAttribute(
-        "aria-label",
-        "แสดงรหัสผ่าน"
-      );
+        // ซ่อนรหัสผ่าน
+
+        confirmPassword.type = "password";
+
+        toggleConfirmPassword.classList.remove(
+          "show-password"
+        );
+
+        toggleConfirmPassword.setAttribute(
+          "aria-label",
+          "แสดงรหัสผ่าน"
+        );
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -331,36 +428,56 @@ function showFirebaseError(error) {
 
   console.error(error);
 
+
   switch (error.code) {
 
     case "auth/email-already-in-use":
+
       return "ชื่อผู้ใช้นี้ถูกใช้งานแล้ว";
 
+
     case "auth/invalid-email":
+
       return "ชื่อผู้ใช้ไม่ถูกต้อง";
 
+
     case "auth/weak-password":
+
       return "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
 
+
     case "auth/user-not-found":
+
       return "ไม่พบบัญชีนี้";
 
+
     case "auth/wrong-password":
+
       return "รหัสผ่านไม่ถูกต้อง";
 
+
     case "auth/invalid-credential":
+
       return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
 
+
     case "auth/operation-not-allowed":
+
       return "กรุณาเปิด Email/Password ใน Firebase Authentication";
 
+
     case "auth/configuration-not-found":
+
       return "Firebase Authentication ยังไม่ได้ตั้งค่า";
 
+
     case "auth/too-many-requests":
+
       return "มีการเข้าสู่ระบบผิดหลายครั้ง กรุณาลองใหม่ภายหลัง";
 
+
     default:
+
       return "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
 
   }
@@ -374,118 +491,199 @@ function showFirebaseError(error) {
 
 if (emailLogin) {
 
-  emailLogin.addEventListener("click", async function () {
+  emailLogin.addEventListener(
+    "click",
+    async function () {
 
-    const username =
-      authName.value.trim();
+      const username =
+        authName.value.trim();
 
-    const password =
-      authPassword.value;
+      const password =
+        authPassword.value;
 
-    const confirm =
-      confirmPassword.value;
-
-
-    // ==================================
-    // CHECK USERNAME
-    // ==================================
-
-    if (!username) {
-
-      loginStatus.textContent =
-        "กรุณากรอกชื่อผู้ใช้";
-
-      authName.focus();
-
-      return;
-
-    }
+      const confirm =
+        confirmPassword.value;
 
 
-    // ==================================
-    // USERNAME FORMAT
-    // ==================================
+      // ==================================
+      // CHECK USERNAME
+      // ==================================
 
-    if (!/^[a-zA-Z0-9._-]{3,30}$/.test(username)) {
-
-      loginStatus.textContent =
-        "ชื่อผู้ใช้ต้องมี 3-30 ตัว และใช้ A-Z, a-z, 0-9, . _ -";
-
-      authName.focus();
-
-      return;
-
-    }
-
-
-    // ==================================
-    // CHECK PASSWORD
-    // ==================================
-
-    if (!password) {
-
-      loginStatus.textContent =
-        "กรุณากรอกรหัสผ่าน";
-
-      authPassword.focus();
-
-      return;
-
-    }
-
-
-    // ==================================
-    // PASSWORD LENGTH
-    // ==================================
-
-    if (password.length < 8) {
-
-      loginStatus.textContent =
-        "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
-
-      authPassword.focus();
-
-      return;
-
-    }
-
-
-    // ==================================
-    // SIGN UP
-    // ==================================
-
-    if (isSignupMode) {
-
-      // ตรวจสอบการยืนยันรหัสผ่าน
-
-      if (!confirm) {
+      if (!username) {
 
         loginStatus.textContent =
-          "กรุณายืนยันรหัสผ่าน";
+          "กรุณากรอกชื่อผู้ใช้";
 
-        confirmPassword.focus();
+        authName.focus();
 
         return;
 
       }
 
 
-      // ตรวจสอบรหัสผ่านตรงกัน
+      // ==================================
+      // USERNAME FORMAT
+      // ==================================
 
-      if (password !== confirm) {
+      if (
+        !/^[a-zA-Z0-9._-]{3,30}$/.test(
+          username
+        )
+      ) {
 
         loginStatus.textContent =
-          "รหัสผ่านไม่ตรงกัน";
+          "ชื่อผู้ใช้ต้องมี 3-30 ตัว และใช้ A-Z, a-z, 0-9, . _ -";
 
-        confirmPassword.focus();
+        authName.focus();
 
         return;
 
       }
 
 
+      // ==================================
+      // CHECK PASSWORD
+      // ==================================
+
+      if (!password) {
+
+        loginStatus.textContent =
+          "กรุณากรอกรหัสผ่าน";
+
+        authPassword.focus();
+
+        return;
+
+      }
+
+
+      // ==================================
+      // PASSWORD LENGTH
+      // ==================================
+
+      if (password.length < 8) {
+
+        loginStatus.textContent =
+          "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
+
+        authPassword.focus();
+
+        return;
+
+      }
+
+
+      // ==================================
+      // SIGN UP
+      // ==================================
+
+      if (isSignupMode) {
+
+
+        // ตรวจสอบยืนยันรหัสผ่าน
+
+        if (!confirm) {
+
+          loginStatus.textContent =
+            "กรุณายืนยันรหัสผ่าน";
+
+          confirmPassword.focus();
+
+          return;
+
+        }
+
+
+        // ตรวจสอบรหัสผ่านตรงกัน
+
+        if (password !== confirm) {
+
+          loginStatus.textContent =
+            "รหัสผ่านไม่ตรงกัน";
+
+          confirmPassword.focus();
+
+          return;
+
+        }
+
+
+        loginStatus.textContent =
+          "กำลังสร้างบัญชี...";
+
+        emailLogin.disabled = true;
+
+
+        try {
+
+          const email =
+            usernameToEmail(username);
+
+
+          // สร้างบัญชี Firebase
+
+          const userCredential =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          const user =
+            userCredential.user;
+
+
+          // บันทึกชื่อผู้ใช้
+
+          await updateProfile(
+            user,
+            {
+              displayName: username
+            }
+          );
+
+
+          loginStatus.textContent =
+            "สร้างบัญชีสำเร็จ!";
+
+
+          // ไปหน้าเลือกหมวดหมู่
+
+          setTimeout(
+            function () {
+
+              window.location.href =
+                "categories.html";
+
+            },
+            500
+          );
+
+
+        } catch (error) {
+
+          loginStatus.textContent =
+            showFirebaseError(error);
+
+        } finally {
+
+          emailLogin.disabled = false;
+
+        }
+
+
+        return;
+
+      }
+
+
+      // ==================================
+      // SIGN IN
+      // ==================================
+
       loginStatus.textContent =
-        "กำลังสร้างบัญชี...";
+        "กำลังเข้าสู่ระบบ...";
 
       emailLogin.disabled = true;
 
@@ -496,41 +694,30 @@ if (emailLogin) {
           usernameToEmail(username);
 
 
-        // สร้างบัญชี Firebase
+        // เข้าสู่ระบบ Firebase
 
-        const userCredential =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-
-        const user =
-          userCredential.user;
-
-
-        // บันทึกชื่อผู้ใช้
-
-        await updateProfile(user, {
-
-          displayName: username
-
-        });
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
 
         loginStatus.textContent =
-          "สร้างบัญชีสำเร็จ!";
+          "เข้าสู่ระบบสำเร็จ!";
 
 
         // ไปหน้าเลือกหมวดหมู่
 
-        setTimeout(function () {
+        setTimeout(
+          function () {
 
-          window.location.href =
-            "categories.html";
+            window.location.href =
+              "categories.html";
 
-        }, 500);
+          },
+          500
+        );
 
 
       } catch (error) {
@@ -544,63 +731,8 @@ if (emailLogin) {
 
       }
 
-
-      return;
-
     }
-
-
-    // ==================================
-    // SIGN IN
-    // ==================================
-
-    loginStatus.textContent =
-      "กำลังเข้าสู่ระบบ...";
-
-    emailLogin.disabled = true;
-
-
-    try {
-
-      const email =
-        usernameToEmail(username);
-
-
-      // เข้าสู่ระบบ Firebase
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-
-      loginStatus.textContent =
-        "เข้าสู่ระบบสำเร็จ!";
-
-
-      // ไปหน้าเลือกหมวดหมู่
-
-      setTimeout(function () {
-
-        window.location.href =
-          "categories.html";
-
-      }, 500);
-
-
-    } catch (error) {
-
-      loginStatus.textContent =
-        showFirebaseError(error);
-
-    } finally {
-
-      emailLogin.disabled = false;
-
-    }
-
-  });
+  );
 
 }
 
@@ -609,26 +741,30 @@ if (emailLogin) {
 // CHECK LOGIN STATUS
 // ========================================
 
-onAuthStateChanged(auth, function (user) {
+onAuthStateChanged(
+  auth,
+  function (user) {
 
-  currentUser = user;
+    currentUser = user;
 
-  if (user) {
 
-    console.log(
-      "เข้าสู่ระบบแล้ว:",
-      user.displayName || user.email
-    );
+    if (user) {
 
-  } else {
+      console.log(
+        "เข้าสู่ระบบแล้ว:",
+        user.displayName || user.email
+      );
 
-    console.log(
-      "ยังไม่ได้เข้าสู่ระบบ"
-    );
+    } else {
+
+      console.log(
+        "ยังไม่ได้เข้าสู่ระบบ"
+      );
+
+    }
 
   }
-
-});
+);
 
 
 // ========================================
@@ -654,13 +790,18 @@ const exitCancel =
 
 if (exitBtn && exitBackdrop) {
 
-  exitBtn.addEventListener("click", function (event) {
+  exitBtn.addEventListener(
+    "click",
+    function (event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    exitBackdrop.classList.add("is-open");
+      exitBackdrop.classList.add(
+        "is-open"
+      );
 
-  });
+    }
+  );
 
 }
 
@@ -671,11 +812,16 @@ if (exitBtn && exitBackdrop) {
 
 if (exitCancel && exitBackdrop) {
 
-  exitCancel.addEventListener("click", function () {
+  exitCancel.addEventListener(
+    "click",
+    function () {
 
-    exitBackdrop.classList.remove("is-open");
+      exitBackdrop.classList.remove(
+        "is-open"
+      );
 
-  });
+    }
+  );
 
 }
 
@@ -686,15 +832,22 @@ if (exitCancel && exitBackdrop) {
 
 if (exitBackdrop) {
 
-  exitBackdrop.addEventListener("click", function (event) {
+  exitBackdrop.addEventListener(
+    "click",
+    function (event) {
 
-    if (event.target === exitBackdrop) {
+      if (
+        event.target === exitBackdrop
+      ) {
 
-      exitBackdrop.classList.remove("is-open");
+        exitBackdrop.classList.remove(
+          "is-open"
+        );
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -705,29 +858,32 @@ if (exitBackdrop) {
 
 if (exitConfirm) {
 
-  exitConfirm.addEventListener("click", async function () {
+  exitConfirm.addEventListener(
+    "click",
+    async function () {
 
-    try {
+      try {
 
-      // Logout Firebase
+        // Logout Firebase
 
-      if (currentUser) {
+        if (currentUser) {
 
-        await signOut(auth);
+          await signOut(auth);
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
 
       }
 
-    } catch (error) {
 
-      console.error(error);
+      // พยายามปิดหน้าต่าง
+
+      window.close();
 
     }
-
-
-    // พยายามปิดหน้าต่าง
-
-    window.close();
-
-  });
+  );
 
 }
