@@ -500,7 +500,7 @@
 
 </head>
 
-<script type="module" src="script.js"></script>
+
 
 <body>
 
@@ -691,24 +691,12 @@
    */
 
   const firebaseConfig = {
-
-    apiKey: "YOUR_API_KEY",
-
-    authDomain:
-      "YOUR_PROJECT_ID.firebaseapp.com",
-
-    projectId:
-      "YOUR_PROJECT_ID",
-
-    storageBucket:
-      "YOUR_PROJECT_ID.firebasestorage.app",
-
-    messagingSenderId:
-      "YOUR_MESSAGING_SENDER_ID",
-
-    appId:
-      "YOUR_APP_ID"
-
+    apiKey: "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
+    authDomain: "hangman-a1562.firebaseapp.com",
+    projectId: "hangman-a1562",
+    storageBucket: "hangman-a1562.firebasestorage.app",
+    messagingSenderId: "1025680486155",
+    appId: "1:1025680486155:web:c1ddb3c5c98471b8f27c0e"
   };
 
 
@@ -956,7 +944,7 @@
 
 
         loginStatus.textContent =
-          "เข้าสู่ระบบไม่สำเร็จ";
+          "เข้าสู่ระบบไม่สำเร็จ: " + error.code;
 
 
         googleLogin.disabled = false;
@@ -1024,7 +1012,7 @@
 
 
         loginStatus.textContent =
-          "เข้าสู่ระบบไม่สำเร็จ";
+          "เข้าสู่ระบบไม่สำเร็จ: " + error.code;
 
 
         googleLogin.disabled = false;
