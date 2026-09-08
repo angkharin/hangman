@@ -284,6 +284,61 @@
     }
 
 
+    .auth-form {
+      text-align: left;
+    }
+
+    .auth-form label {
+      display: block;
+      color: #ffffff;
+      font-size: 14px;
+      margin: 12px 0 6px;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #53677a;
+      background: #080d15;
+      color: #ffffff;
+      font-family: "Niramit", sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .auth-form input:focus {
+      border-color: var(--panel-border);
+      box-shadow: 0 0 0 2px rgba(87, 194, 255, 0.12);
+    }
+
+    .email-btn {
+      background: var(--panel-border);
+      color: #06101a;
+      margin-top: 18px;
+    }
+
+    .email-btn:hover {
+      background: #82d4ff;
+    }
+
+    .email-btn.secondary {
+      margin-top: 8px;
+      background: transparent;
+      color: #ffffff;
+    }
+
+    .email-btn.secondary:hover {
+      background: rgba(87, 194, 255, 0.15);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .login-status.error {
+      color: #ff8f8f;
+    }
+
     /* =================================
        EXIT CONFIRMATION
     ================================= */
@@ -546,66 +601,32 @@
        LOGIN MODAL
   ================================= -->
 
-  <div
-    class="login-backdrop"
-    id="loginBackdrop"
-  >
+  <div class="login-backdrop" id="loginBackdrop">
+    <div class="login-panel" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <button type="button" class="login-close" id="loginClose">×</button>
 
-    <div
-      class="login-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="loginTitle"
-    >
+      <h2 id="loginTitle">เข้าสู่ระบบ</h2>
+      <p id="loginDescription">เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman</p>
 
-      <button
-        type="button"
-        class="login-close"
-        id="loginClose"
-      >
-        ×
-      </button>
+      <div class="auth-form">
+        <label for="authName" id="nameLabel">ชื่อผู้ใช้</label>
+        <input type="text" id="authName" placeholder="กรอกชื่อผู้ใช้" autocomplete="username">
 
-      <h2 id="loginTitle">
-        เข้าสู่ระบบ
-      </h2>
+        <label for="authPassword">รหัสผ่าน</label>
+        <input type="password" id="authPassword" placeholder="กรอกรหัสผ่าน" autocomplete="current-password">
 
-      <p>
-        เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman
-      </p>
+        <div id="confirmPasswordWrap" class="hidden">
+          <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+          <input type="password" id="confirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" autocomplete="new-password">
+        </div>
 
+        <button type="button" class="login-btn email-btn" id="emailLogin">SIGN IN</button>
+        <button type="button" class="login-btn email-btn secondary" id="toggleSignup">สร้างบัญชี</button>
+      </div>
 
-      <!-- Google -->
-
-      <button
-        type="button"
-        class="login-btn google-btn"
-        id="googleLogin"
-      >
-        G &nbsp; เข้าสู่ระบบด้วย Google
-      </button>
-
-
-      <!-- Facebook -->
-
-      <button
-        type="button"
-        class="login-btn facebook-btn"
-        id="facebookLogin"
-      >
-        f &nbsp; เข้าสู่ระบบด้วย Facebook
-      </button>
-
-
-      <div
-        class="login-status"
-        id="loginStatus"
-      ></div>
-
+      <div class="login-status" id="loginStatus"></div>
     </div>
-
   </div>
-
 
   <!-- =================================
        EXIT DIALOG
@@ -658,513 +679,10 @@
 </div>
 
 
-<!-- =================================
-     FIREBASE + JAVASCRIPT
-================================= -->
 
-<script type="module">
 
-  /* =================================
-     Firebase
-  ================================= */
 
-  import {
-    initializeApp
-  } from
-    "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    FacebookAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged
-  } from
-    "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-  /*
-   * ==================================
-   * ใส่ Firebase Config ของคุณตรงนี้
-   * ==================================
-   */
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
-    authDomain: "hangman-a1562.firebaseapp.com",
-    projectId: "hangman-a1562",
-    storageBucket: "hangman-a1562.firebasestorage.app",
-    messagingSenderId: "1025680486155",
-    appId: "1:1025680486155:web:c1ddb3c5c98471b8f27c0e"
-  };
-
-
-  /* =================================
-     เริ่ม Firebase
-  ================================= */
-
-  const app =
-    initializeApp(firebaseConfig);
-
-  const auth =
-    getAuth(app);
-
-
-  /* =================================
-     Providers
-  ================================= */
-
-  const googleProvider =
-    new GoogleAuthProvider();
-
-  const facebookProvider =
-    new FacebookAuthProvider();
-
-
-  /* =================================
-     Elements
-  ================================= */
-
-  const playGameBtn =
-    document.getElementById(
-      "playGameBtn"
-    );
-
-  const loginBackdrop =
-    document.getElementById(
-      "loginBackdrop"
-    );
-
-  const loginClose =
-    document.getElementById(
-      "loginClose"
-    );
-
-  const googleLogin =
-    document.getElementById(
-      "googleLogin"
-    );
-
-  const facebookLogin =
-    document.getElementById(
-      "facebookLogin"
-    );
-
-  const loginStatus =
-    document.getElementById(
-      "loginStatus"
-    );
-
-
-  /* =================================
-     ตัวแปรผู้ใช้ปัจจุบัน
-  ================================= */
-
-  let currentUser = null;
-
-
-  /* =================================
-     ตรวจสอบ Login
-  ================================= */
-
-  onAuthStateChanged(
-    auth,
-    (user) => {
-
-      currentUser = user;
-
-      if (user) {
-
-        console.log(
-          "Login แล้ว:",
-          user.displayName ||
-          user.email
-        );
-
-      } else {
-
-        console.log(
-          "ยังไม่ได้ Login"
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =================================
-     กด "เล่นเกม"
-  ================================= */
-
-  playGameBtn.addEventListener(
-    "click",
-    (event) => {
-
-      /*
-       * หยุด href="categories.html"
-       * เอาไว้ก่อน
-       */
-
-      event.preventDefault();
-
-
-      /*
-       * ถ้า Login อยู่แล้ว
-       * ไปหน้าเลือกหมวดหมู่ทันที
-       */
-
-      if (currentUser) {
-
-        window.location.href =
-          "categories.html";
-
-        return;
-
-      }
-
-
-      /*
-       * ถ้ายังไม่ได้ Login
-       * เปิดหน้าต่าง Login
-       */
-
-      loginStatus.textContent = "";
-
-      loginBackdrop.classList.add(
-        "is-open"
-      );
-
-      loginClose.focus();
-
-    }
-  );
-
-
-  /* =================================
-     ปิด Login
-  ================================= */
-
-  function closeLogin() {
-
-    loginBackdrop.classList.remove(
-      "is-open"
-    );
-
-    loginStatus.textContent = "";
-
-    playGameBtn.focus();
-
-  }
-
-
-  loginClose.addEventListener(
-    "click",
-    closeLogin
-  );
-
-
-  /* =================================
-     คลิกพื้นที่ด้านนอก Login
-  ================================= */
-
-  loginBackdrop.addEventListener(
-    "click",
-    (event) => {
-
-      if (
-        event.target === loginBackdrop
-      ) {
-
-        closeLogin();
-
-      }
-
-    }
-  );
-
-
-  /* =================================
-     Google Login
-  ================================= */
-
-  googleLogin.addEventListener(
-    "click",
-    async () => {
-
-      try {
-
-        loginStatus.textContent =
-          "กำลังเข้าสู่ระบบด้วย Google...";
-
-
-        googleLogin.disabled = true;
-
-        facebookLogin.disabled = true;
-
-
-        const result =
-          await signInWithPopup(
-            auth,
-            googleProvider
-          );
-
-
-        currentUser =
-          result.user;
-
-
-        loginStatus.textContent =
-          "เข้าสู่ระบบสำเร็จ";
-
-
-        /*
-         * ไปหน้าเลือกหมวดหมู่
-         */
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "categories.html";
-
-          },
-          500
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Google Login Error:",
-          error
-        );
-
-
-        loginStatus.textContent =
-          "เข้าสู่ระบบไม่สำเร็จ: " + error.code;
-
-
-        googleLogin.disabled = false;
-
-        facebookLogin.disabled = false;
-
-      }
-
-    }
-  );
-
-
-  /* =================================
-     Facebook Login
-  ================================= */
-
-  facebookLogin.addEventListener(
-    "click",
-    async () => {
-
-      try {
-
-        loginStatus.textContent =
-          "กำลังเข้าสู่ระบบด้วย Facebook...";
-
-
-        googleLogin.disabled = true;
-
-        facebookLogin.disabled = true;
-
-
-        const result =
-          await signInWithPopup(
-            auth,
-            facebookProvider
-          );
-
-
-        currentUser =
-          result.user;
-
-
-        loginStatus.textContent =
-          "เข้าสู่ระบบสำเร็จ";
-
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "categories.html";
-
-          },
-          500
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Facebook Login Error:",
-          error
-        );
-
-
-        loginStatus.textContent =
-          "เข้าสู่ระบบไม่สำเร็จ: " + error.code;
-
-
-        googleLogin.disabled = false;
-
-        facebookLogin.disabled = false;
-
-      }
-
-    }
-  );
-
-
-  /* =================================
-     EXIT GAME
-  ================================= */
-
-  const exitBtn =
-    document.getElementById(
-      "exitBtn"
-    );
-
-  const exitBackdrop =
-    document.getElementById(
-      "exitBackdrop"
-    );
-
-  const exitConfirm =
-    document.getElementById(
-      "exitConfirm"
-    );
-
-  const exitCancel =
-    document.getElementById(
-      "exitCancel"
-    );
-
-
-  function openExitDialog(e) {
-
-    e.preventDefault();
-
-    exitBackdrop.classList.add(
-      "is-open"
-    );
-
-    exitCancel.focus();
-
-  }
-
-
-  function closeExitDialog() {
-
-    exitBackdrop.classList.remove(
-      "is-open"
-    );
-
-    exitBtn.focus();
-
-  }
-
-
-  exitBtn.addEventListener(
-    "click",
-    openExitDialog
-  );
-
-
-  exitCancel.addEventListener(
-    "click",
-    closeExitDialog
-  );
-
-
-  exitBackdrop.addEventListener(
-    "click",
-    (e) => {
-
-      if (
-        e.target === exitBackdrop
-      ) {
-
-        closeExitDialog();
-
-      }
-
-    }
-  );
-
-
-  document.addEventListener(
-    "keydown",
-    (e) => {
-
-      if (
-        e.key === "Escape" &&
-        exitBackdrop.classList.contains(
-          "is-open"
-        )
-      ) {
-
-        closeExitDialog();
-
-      }
-
-    }
-  );
-
-
-  exitConfirm.addEventListener(
-    "click",
-    () => {
-
-      exitConfirm.disabled = true;
-
-      exitCancel.disabled = true;
-
-      exitConfirm.textContent =
-        "กำลังออก...";
-
-
-      setTimeout(
-        () => {
-
-          window.close();
-
-
-          /*
-           * เบราว์เซอร์บางตัว
-           * ไม่อนุญาตให้ปิดแท็บ
-           * ที่ไม่ได้เปิดด้วย JavaScript
-           */
-
-          setTimeout(
-            () => {
-
-              exitConfirm.textContent =
-                "ปิดแท็บนี้ได้เลย";
-
-            },
-            400
-          );
-
-        },
-        500
-      );
-
-    }
-  );
-
-</script>
-
-
+<script type="module" src="script.js"></script>
 </body>
 
 </html>
