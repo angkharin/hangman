@@ -269,8 +269,18 @@
   });
 
   exitConfirm.addEventListener('click', () => {
-    // TODO: เปลี่ยนเป็น action จริง เช่น window.close() หรือ redirect ไปหน้าอื่น
+    exitConfirm.disabled = true;
+    exitCancel.disabled = true;
     exitConfirm.textContent = 'กำลังออก...';
+
+    setTimeout(() => {
+      window.close();
+      // เบราว์เซอร์บางตัวไม่อนุญาตให้ปิดแท็บที่ไม่ได้เปิดด้วยสคริปต์
+      // ถ้าปิดไม่สำเร็จ ให้แจ้งผู้เล่นแทน
+      setTimeout(() => {
+        exitConfirm.textContent = 'ปิดแท็บนี้ได้เลย';
+      }, 400);
+    }, 500);
   });
 </script>
 
