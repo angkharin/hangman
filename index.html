@@ -3,1115 +3,602 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Hangman</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-  rel="stylesheet"
->
+<link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
 <style>
 
-/* ========================================
-   ROOT
-======================================== */
-
 :root {
-  --menu-color: #ffffff;
-  --menu-hover: #57c2ff;
-
-  --panel-bg: #0d1420;
-  --panel-border: #57c2ff;
-  --panel-shade: #060a10;
-
-  --input-bg: #080e17;
-  --text-gray: #b8c5d1;
+    --menu-color: #ffffff;
+    --menu-hover: #57c2ff;
+    --panel-bg: #0d1420;
+    --panel-border: #57c2ff;
+    --panel-shade: #060a10;
+    --input-bg: #080e17;
+    --text-gray: #b8c5d1;
 }
-
-
-/* ========================================
-   RESET
-======================================== */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-
-/* ========================================
-   BODY
-======================================== */
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-
-  background: #000;
-
-  height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
 }
 
 body {
-  background-size: cover;
-  background-position: center;
-
-  min-height: 100vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 24px;
-
-  font-family: "Niramit", sans-serif;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: "Niramit", sans-serif;
 }
-
-
-/* ========================================
-   MAIN GAME SCREEN
-======================================== */
 
 .stage {
-  position: relative;
-
-  width: 100%;
-  max-width: 1100px;
-
-  aspect-ratio: 1376 / 768;
-
-  background-image: url("image/main.png");
-  background-size: cover;
-  background-position: center;
-
-  border-radius: 4px;
-
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    aspect-ratio: 1376 / 768;
+    background-image: url("image/main.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-
-/* ========================================
-   MENU
-======================================== */
-
 nav.menu {
-  position: absolute;
-  inset: 0;
+    position: absolute;
+    inset: 0;
 }
 
 .menu a {
-  position: absolute;
-
-  left: 50%;
-
-  transform: translate(-50%, -100%);
-
-  font-family: "Niramit", sans-serif;
-
-  font-weight: 500;
-  font-style: normal;
-
-  color: var(--menu-color);
-
-  text-decoration: none;
-
-  letter-spacing: 0.02em;
-
-  white-space: nowrap;
-
-  font-size: clamp(11px, 2vw, 22px);
-
-  padding-bottom: 4px;
-
-  transition:
-    color 0.15s ease,
-    transform 0.15s ease;
-
-  background: none;
-
-  border: none;
-
-  cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    font-family: "Niramit", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--menu-color);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    font-size: clamp(11px, 2vw, 22px);
+    padding-bottom: 4px;
+    transition: color 0.15s ease, transform 0.15s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .menu a:hover,
 .menu a:focus-visible {
-
-  color: var(--menu-hover);
-
-  transform: translate(-50%, -105%);
+    color: var(--menu-hover);
+    transform: translate(-50%, -105%);
 }
 
 .menu a:focus-visible {
-
-  outline: 1px solid var(--menu-hover);
-
-  outline-offset: 4px;
+    outline: 1px solid var(--menu-hover);
+    outline-offset: 4px;
 }
 
-
-/* ========================================
-   MENU POSITIONS
-======================================== */
-
 .item-2 {
-  margin-top: -30px;
-
-  top: 30.0%;
-  left: 65.0%;
-
-  margin-left: 130px;
+    margin-top: -30px;
+    top: 30%;
+    left: 65%;
+    margin-left: 130px;
 }
 
 .item-3 {
-  margin-top: -30px;
-
-  top: 37.6%;
-  left: 62.6%;
-
-  margin-left: 130px;
+    margin-top: -30px;
+    top: 37.6%;
+    left: 62.6%;
+    margin-left: 130px;
 }
 
 .item-4 {
-  margin-top: -20px;
-
-  top: 43.6%;
-  left: 59.9%;
-
-  margin-left: 130px;
+    margin-top: -20px;
+    top: 43.6%;
+    left: 59.9%;
+    margin-left: 130px;
 }
 
 .item-5 {
-  margin-top: -10px;
-
-  top: 50.0%;
-  left: 61.2%;
-
-  margin-left: 130px;
+    margin-top: -10px;
+    top: 50%;
+    left: 61.2%;
+    margin-left: 130px;
 }
 
 .item-6 {
-  margin-top: -10px;
-
-  top: 57.3%;
-  left: 64.0%;
-
-  margin-left: 130px;
+    margin-top: -10px;
+    top: 57.3%;
+    left: 64%;
+    margin-left: 130px;
 }
 
 
-/* ========================================
+/* ================================
    LOGIN BACKDROP
-======================================== */
+================================ */
 
 .login-backdrop {
-
-  position: absolute;
-
-  inset: 0;
-
-  background: rgba(3, 6, 10, 0.78);
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition: opacity 0.18s ease;
-
-  z-index: 20;
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 10, 0.78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 20;
 }
 
 .login-backdrop.is-open {
-
-  opacity: 1;
-
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 
-/* ========================================
+/* ================================
    LOGIN PANEL
-======================================== */
+================================ */
 
 .login-panel {
-
-  position: relative;
-
-  width: min(88%, 400px);
-
-  background: var(--panel-bg);
-
-  border: 1px solid var(--panel-border);
-
-  padding: 30px 25px;
-
-  text-align: center;
-
-  transform:
-    translateY(8px)
-    scale(0.97);
-
-  transition:
-    transform 0.18s ease;
-
-  box-shadow:
-    0 0 25px rgba(87, 194, 255, 0.15);
+    position: relative;
+    width: min(88%, 400px);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 30px 25px;
+    text-align: center;
+    transform: translateY(8px) scale(0.97);
+    transition: transform 0.18s ease;
+    box-shadow: 0 0 25px rgba(87, 194, 255, 0.15);
 }
 
 .login-backdrop.is-open .login-panel {
-
-  transform:
-    translateY(0)
-    scale(1);
+    transform: translateY(0) scale(1);
 }
 
-
-/* ========================================
-   LOGIN TITLE
-======================================== */
-
 .login-panel h2 {
-
-  color: #ffffff;
-
-  font-size:
-    clamp(20px, 3vw, 26px);
-
-  font-weight: 600;
-
-  margin-bottom: 8px;
+    color: #ffffff;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
 .login-panel p {
-
-  color: var(--text-gray);
-
-  font-size: 14px;
-
-  margin-bottom: 22px;
+    color: var(--text-gray);
+    font-size: 14px;
+    margin-bottom: 22px;
 }
 
 
-/* ========================================
+/* ================================
    CLOSE BUTTON
-======================================== */
+================================ */
 
 .login-close {
-
-  position: absolute;
-
-  top: 8px;
-  right: 12px;
-
-  border: none;
-
-  background: transparent;
-
-  color: #ffffff;
-
-  font-family: "Niramit", sans-serif;
-
-  font-size: 25px;
-
-  cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-family: "Niramit", sans-serif;
+    font-size: 25px;
+    cursor: pointer;
 }
 
 .login-close:hover {
-
-  color: var(--menu-hover);
+    color: var(--menu-hover);
 }
 
 
-/* ========================================
-   INPUT GROUP
-======================================== */
+/* ================================
+   INPUT
+================================ */
 
 .input-group {
-
-  width: 100%;
-
-  margin-bottom: 12px;
-
-  text-align: left;
+    width: 100%;
+    margin-bottom: 12px;
+    text-align: left;
 }
 
-
-/* ========================================
-   INPUT
-======================================== */
-
 .input-group input {
-
-  width: 100%;
-
-  height: 45px;
-
-  padding: 10px 13px;
-
-  background: var(--input-bg);
-
-  border: 1px solid #304357;
-
-  color: #ffffff;
-
-  font-family: "Niramit", sans-serif;
-
-  font-size: 15px;
-
-  outline: none;
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    width: 100%;
+    height: 45px;
+    padding: 10px 13px;
+    background: var(--input-bg);
+    border: 1px solid #304357;
+    color: #ffffff;
+    font-family: "Niramit", sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .input-group input::placeholder {
-
-  color: #718092;
+    color: #718092;
 }
 
 .input-group input:focus {
-
-  border-color: var(--panel-border);
-
-  box-shadow:
-    0 0 8px rgba(87, 194, 255, 0.12);
+    border-color: var(--panel-border);
+    box-shadow: 0 0 8px rgba(87, 194, 255, 0.12);
 }
 
 
-/* ========================================
-   PASSWORD BOX
-======================================== */
+/* ================================
+   PASSWORD
+================================ */
 
 .password-box {
-
-  position: relative;
-
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
-
-
-/* ช่องรหัสผ่าน */
 
 .password-box input {
-
-  padding-right: 48px;
+    padding-right: 48px;
 }
 
-
-/* ========================================
-   PASSWORD EYE BUTTON
-======================================== */
-
 .password-toggle {
-
-  position: absolute;
-
-  right: 10px;
-
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  width: 32px;
-  height: 32px;
-
-  border: none;
-
-  background: transparent;
-
-  color: #ffffff;
-
-  cursor: pointer;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  font-size: 18px;
-
-  padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding: 0;
 }
 
 .password-toggle:hover {
-
-  color: var(--menu-hover);
+    color: var(--menu-hover);
 }
 
 
-/* ========================================
+/* ================================
    LOGIN BUTTON
-======================================== */
+================================ */
 
 .login-btn {
-
-  width: 100%;
-
-  height: 45px;
-
-  padding: 10px 15px;
-
-  margin-top: 8px;
-
-  border: 1px solid var(--panel-border);
-
-  background: var(--panel-border);
-
-  color: var(--panel-shade);
-
-  font-family: "Niramit", sans-serif;
-
-  font-size: 15px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease;
+    width: 100%;
+    height: 45px;
+    padding: 10px 15px;
+    margin-top: 8px;
+    border: 1px solid var(--panel-border);
+    background: var(--panel-border);
+    color: var(--panel-shade);
+    font-family: "Niramit", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .login-btn:hover {
-
-  background: #82d4ff;
-
-  transform: translateY(-1px);
+    background: #82d4ff;
+    transform: translateY(-1px);
 }
 
 .login-btn:disabled {
-
-  opacity: 0.6;
-
-  cursor: not-allowed;
-
-  transform: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 
-/* ========================================
-   SWITCH SIGN UP
-======================================== */
+/* ================================
+   SIGN UP
+================================ */
 
 .signup-switch {
-
-  margin-top: 17px !important;
-
-  margin-bottom: 0 !important;
-
-  color: #9baaba !important;
-
-  font-size: 13px !important;
+    margin-top: 17px !important;
+    margin-bottom: 0 !important;
+    color: #9baaba !important;
+    font-size: 13px !important;
 }
 
 .signup-switch button {
-
-  border: none;
-
-  background: transparent;
-
-  color: var(--menu-hover);
-
-  font-family: "Niramit", sans-serif;
-
-  font-size: 13px;
-
-  cursor: pointer;
-
-  padding: 0;
-
-  text-decoration: underline;
+    border: none;
+    background: transparent;
+    color: var(--menu-hover);
+    font-family: "Niramit", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
 }
 
 .signup-switch button:hover {
-
-  color: #ffffff;
+    color: #ffffff;
 }
 
 
-/* ========================================
+/* ================================
    LOGIN STATUS
-======================================== */
+================================ */
 
 .login-status {
-
-  min-height: 22px;
-
-  margin-top: 12px;
-
-  color: var(--menu-hover);
-
-  font-size: 13px;
-
-  line-height: 1.5;
+    min-height: 22px;
+    margin-top: 12px;
+    color: var(--menu-hover);
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .login-status.error {
-
-  color: #ff6b6b;
+    color: #ff6b6b;
 }
-
-
-/* ========================================
-   HIDDEN
-======================================== */
 
 .hidden {
-
-  display: none !important;
+    display: none !important;
 }
 
 
-/* ========================================
-   EXIT CONFIRMATION
-======================================== */
+/* ================================
+   EXIT
+================================ */
 
 .exit-backdrop {
-
-  position: absolute;
-
-  inset: 0;
-
-  background: rgba(3, 6, 10, 0.7);
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition: opacity 0.18s ease;
-
-  z-index: 10;
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 10, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 10;
 }
 
 .exit-backdrop.is-open {
-
-  opacity: 1;
-
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
-
-/* ========================================
-   EXIT PANEL
-======================================== */
-
 .exit-panel {
-
-  position: relative;
-
-  width: min(78%, 380px);
-
-  background: var(--panel-bg);
-
-  border: 1px solid var(--panel-border);
-
-  padding:
-    clamp(20px, 4vw, 32px)
-    clamp(18px, 4vw, 28px);
-
-  text-align: center;
-
-  transform:
-    translateY(8px)
-    scale(0.97);
-
-  transition:
-    transform 0.18s ease;
+    position: relative;
+    width: min(78%, 380px);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: clamp(20px, 4vw, 32px) clamp(18px, 4vw, 28px);
+    text-align: center;
+    transform: translateY(8px) scale(0.97);
+    transition: transform 0.18s ease;
 }
 
 .exit-backdrop.is-open .exit-panel {
-
-  transform:
-    translateY(0)
-    scale(1);
+    transform: translateY(0) scale(1);
 }
-
-
-/* ========================================
-   EXIT CORNERS
-======================================== */
 
 .exit-panel::before,
 .exit-panel::after {
-
-  content: "";
-
-  position: absolute;
-
-  width: 14px;
-  height: 14px;
-
-  border: 1px solid var(--panel-border);
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--panel-border);
 }
 
 .exit-panel::before {
-
-  top: -1px;
-  left: -1px;
-
-  border-right: none;
-  border-bottom: none;
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
 }
 
 .exit-panel::after {
-
-  bottom: -1px;
-  right: -1px;
-
-  border-left: none;
-  border-top: none;
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
 }
-
-
-/* ========================================
-   EXIT TITLE
-======================================== */
 
 .exit-title {
-
-  color: #ffffff;
-
-  font-size:
-    clamp(15px, 2.6vw, 19px);
-
-  font-weight: 600;
-
-  letter-spacing: 0.02em;
-
-  line-height: 1.5;
-
-  margin-bottom:
-    clamp(18px, 3.5vw, 26px);
+    color: #ffffff;
+    font-size: clamp(15px, 2.6vw, 19px);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    margin-bottom: clamp(18px, 3.5vw, 26px);
 }
 
-
-/* ========================================
-   EXIT ACTIONS
-======================================== */
-
 .exit-actions {
-
-  display: flex;
-
-  gap: 12px;
-
-  justify-content: center;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
 }
 
 .exit-actions button {
-
-  font-family: "Niramit", sans-serif;
-
-  font-weight: 500;
-
-  font-size:
-    clamp(12px, 2.2vw, 15px);
-
-  letter-spacing: 0.02em;
-
-  padding: 9px 22px;
-
-  border: 1px solid var(--panel-border);
-
-  background: transparent;
-
-  color: #ffffff;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
+    font-family: "Niramit", sans-serif;
+    font-weight: 500;
+    font-size: clamp(12px, 2.2vw, 15px);
+    letter-spacing: 0.02em;
+    padding: 9px 22px;
+    border: 1px solid var(--panel-border);
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
 }
-
-.exit-actions button:hover,
-.exit-actions button:focus-visible {
-
-  outline: none;
-}
-
-
-/* ========================================
-   EXIT CONFIRM
-======================================== */
 
 .exit-confirm {
-
-  background: var(--panel-border) !important;
-
-  color: var(--panel-shade) !important;
+    background: var(--panel-border) !important;
+    color: var(--panel-shade) !important;
 }
 
 .exit-confirm:hover,
 .exit-confirm:focus-visible {
-
-  background: #82d4ff !important;
+    background: #82d4ff !important;
 }
-
-
-/* ========================================
-   EXIT CANCEL
-======================================== */
 
 .exit-cancel:hover,
 .exit-cancel:focus-visible {
-
-  background:
-    rgba(87, 194, 255, 0.15);
+    background: rgba(87, 194, 255, 0.15);
 }
 
 
-/* ========================================
-   RESPONSIVE TABLET
-======================================== */
+/* ================================
+   RESPONSIVE
+================================ */
 
 @media (max-width: 768px) {
 
-  body {
-    padding: 12px;
-  }
+    body {
+        padding: 12px;
+    }
 
-  .login-panel {
-    padding: 25px 20px;
-  }
+    .login-panel {
+        padding: 25px 20px;
+    }
 
 }
 
-
-/* ========================================
-   RESPONSIVE MOBILE
-======================================== */
-
 @media (max-width: 480px) {
 
-  body {
-    padding: 8px;
-  }
+    body {
+        padding: 8px;
+    }
 
-  .login-panel {
-    width: 92%;
+    .login-panel {
+        width: 92%;
+        padding: 25px 18px;
+    }
 
-    padding:
-      25px 18px;
-  }
+    .login-panel h2 {
+        font-size: 21px;
+    }
 
-  .login-panel h2 {
-    font-size: 21px;
-  }
-
-  .item-2,
-  .item-3,
-  .item-4,
-  .item-5,
-  .item-6 {
-    margin-left: 80px;
-  }
+    .item-2,
+    .item-3,
+    .item-4,
+    .item-5,
+    .item-6 {
+        margin-left: 80px;
+    }
 
 }
 
 </style>
 </head>
 
-
 <body>
 
 <div class="stage">
 
+    <!-- MAIN MENU -->
+    <nav class="menu" aria-label="เมนูหลัก">
 
-  <!-- ====================================
-       MAIN MENU
-  ==================================== -->
+        <a href="categories.html" class="item-2" id="playGameBtn">เล่นเกม</a>
 
-  <nav class="menu" aria-label="เมนูหลัก">
+        <a href="#" class="item-3">คู่มือการเล่น</a>
 
-    <a
-      href="categories.html"
-      class="item-2"
-      id="playGameBtn"
-    >
-      เล่นเกม
-    </a>
+        <a href="#" class="item-4">ดูอันดับ</a>
 
+        <a href="creator.html" class="item-5">ประวัติผู้สร้างเกม</a>
 
-    <a
-      href="#"
-      class="item-3"
-    >
-      คู่มือการเล่น
-    </a>
+        <a href="#" class="item-6" id="exitBtn">ออกจากเกม</a>
+
+    </nav>
 
 
-    <a
-      href="#"
-      class="item-4"
-    >
-      ดูอันดับ
-    </a>
+    <!-- LOGIN MODAL -->
+    <div class="login-backdrop" id="loginBackdrop">
 
+        <div class="login-panel" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
 
-    <a
-      href="creator.html"
-      class="item-5"
-    >
-      ประวัติผู้สร้างเกม
-    </a>
+            <button type="button" class="login-close" id="loginClose">×</button>
 
+            <h2 id="loginTitle">เข้าสู่ระบบ</h2>
 
-    <a
-      href="#"
-      class="item-6"
-      id="exitBtn"
-    >
-      ออกจากเกม
-    </a>
+            <p id="loginDescription">เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman</p>
 
-  </nav>
+            <div class="input-group">
 
+                <input type="text" id="authName" placeholder="ชื่อผู้ใช้" maxlength="30" autocomplete="username">
 
+            </div>
 
-  <!-- ====================================
-       LOGIN MODAL
-  ==================================== -->
+            <div class="input-group">
 
-  <div
-    class="login-backdrop"
-    id="loginBackdrop"
-  >
+                <div class="password-box">
 
-    <div
-      class="login-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="loginTitle"
-    >
+                    <input type="password" id="authPassword" placeholder="รหัสผ่าน" minlength="8" autocomplete="current-password">
 
+                    <button type="button" id="togglePassword" class="password-toggle" aria-label="แสดงรหัสผ่าน">👁</button>
 
-      <!-- CLOSE -->
+                </div>
 
-      <button
-        type="button"
-        class="login-close"
-        id="loginClose"
-      >
-        ×
-      </button>
+            </div>
 
+            <div class="input-group hidden" id="confirmPasswordWrap">
 
-      <!-- TITLE -->
+                <div class="password-box">
 
-      <h2 id="loginTitle">
-        เข้าสู่ระบบ
-      </h2>
+                    <input type="password" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" minlength="8" autocomplete="new-password">
 
+                    <button type="button" id="toggleConfirmPassword" class="password-toggle" aria-label="แสดงรหัสผ่าน">👁</button>
 
-      <p id="loginDescription">
-        เข้าสู่ระบบเพื่อเริ่มเล่นเกม Hangman
-      </p>
+                </div>
 
+            </div>
 
+            <button type="button" class="login-btn" id="emailLogin">SIGN IN</button>
 
-      <!-- USERNAME -->
+            <p class="signup-switch">ยังไม่มีบัญชี? <button type="button" id="toggleSignup">สร้างบัญชี</button></p>
 
-      <div class="input-group">
-
-        <input
-          type="text"
-          id="authName"
-          placeholder="ชื่อผู้ใช้"
-          maxlength="30"
-          autocomplete="username"
-        >
-
-      </div>
-
-
-
-      <!-- PASSWORD -->
-
-      <div class="input-group">
-
-        <div class="password-box">
-
-          <input
-            type="password"
-            id="authPassword"
-            placeholder="รหัสผ่าน"
-            minlength="8"
-            autocomplete="current-password"
-          >
-
-          <button
-            type="button"
-            id="togglePassword"
-            class="password-toggle"
-            aria-label="แสดงรหัสผ่าน"
-          >
-            👁
-          </button>
+            <div class="login-status" id="loginStatus"></div>
 
         </div>
 
-      </div>
+    </div>
 
 
+    <!-- EXIT MODAL -->
+    <div class="exit-backdrop" id="exitBackdrop">
 
-      <!-- CONFIRM PASSWORD -->
+        <div class="exit-panel" role="dialog" aria-modal="true" aria-labelledby="exitTitle">
 
-      <div
-        class="input-group hidden"
-        id="confirmPasswordWrap"
-      >
+            <p class="exit-title" id="exitTitle">ยืนยันว่าคุณต้องการออกจากเกมใช่หรือไม่?</p>
 
-        <div class="password-box">
+            <div class="exit-actions">
 
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="ยืนยันรหัสผ่าน"
-            minlength="8"
-            autocomplete="new-password"
-          >
+                <button type="button" class="exit-confirm" id="exitConfirm">ใช่, ออกจากเกม</button>
 
-          <button
-            type="button"
-            id="toggleConfirmPassword"
-            class="password-toggle"
-            aria-label="แสดงรหัสผ่าน"
-          >
-            👁
-          </button>
+                <button type="button" class="exit-cancel" id="exitCancel">ยกเลิก</button>
+
+            </div>
 
         </div>
 
-      </div>
-
-
-
-      <!-- SIGN IN -->
-
-      <button
-        type="button"
-        class="login-btn"
-        id="emailLogin"
-      >
-        SIGN IN
-      </button>
-
-
-
-      <!-- SIGN UP SWITCH -->
-
-      <p class="signup-switch">
-
-        ยังไม่มีบัญชี?
-
-        <button
-          type="button"
-          id="toggleSignup"
-        >
-          สร้างบัญชี
-        </button>
-
-      </p>
-
-
-
-      <!-- STATUS -->
-
-      <div
-        class="login-status"
-        id="loginStatus"
-      ></div>
-
-
     </div>
-
-  </div>
-
-
-
-  <!-- ====================================
-       EXIT MODAL
-  ==================================== -->
-
-  <div
-    class="exit-backdrop"
-    id="exitBackdrop"
-  >
-
-    <div
-      class="exit-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="exitTitle"
-    >
-
-      <p
-        class="exit-title"
-        id="exitTitle"
-      >
-        ยืนยันว่าคุณต้องการออกจากเกมใช่หรือไม่?
-      </p>
-
-
-      <div class="exit-actions">
-
-        <button
-          type="button"
-          class="exit-confirm"
-          id="exitConfirm"
-        >
-          ใช่, ออกจากเกม
-        </button>
-
-
-        <button
-          type="button"
-          class="exit-cancel"
-          id="exitCancel"
-        >
-          ยกเลิก
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
 
 </div>
 
 
-<!-- ========================================
-     JAVASCRIPT
-======================================== -->
-
-<script
-  type="module"
-  src="script.js"
-></script>
-
+<!-- JAVASCRIPT -->
+<script type="module" src="script.js"></script>
 
 </body>
 </html>
