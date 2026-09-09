@@ -142,47 +142,37 @@ nav.menu {
 
 .item-2 {
     margin-top: -30px;
-
     top: 30%;
     left: 65%;
-
-    margin-left: 130px;
+    margin-left: clamp(30px, 11.8vw, 130px);
 }
 
 .item-3 {
     margin-top: -30px;
-
     top: 37.6%;
     left: 62.6%;
-
-    margin-left: 130px;
+    margin-left: clamp(30px, 11.8vw, 130px);
 }
 
 .item-4 {
     margin-top: -20px;
-
     top: 43.6%;
     left: 59.9%;
-
-    margin-left: 130px;
+    margin-left: clamp(30px, 11.8vw, 130px);
 }
 
 .item-5 {
     margin-top: -10px;
-
     top: 50%;
     left: 61.2%;
-
-    margin-left: 130px;
+    margin-left: clamp(30px, 11.8vw, 130px);
 }
 
 .item-6 {
     margin-top: -10px;
-
     top: 57.3%;
     left: 64%;
-
-    margin-left: 130px;
+    margin-left: clamp(30px, 11.8vw, 130px);
 }
 
 /* ================================
@@ -777,14 +767,25 @@ input[type="password"]::-webkit-textfield-decoration-container {
    RESPONSIVE
 ================================ */
 
+/* ================================
+   RESPONSIVE
+================================ */
+
+/* TABLET */
 @media (max-width: 768px) {
 
     body {
         padding: 12px;
     }
 
-    .login-panel {
-        padding: 25px 20px;
+    .stage {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1376 / 768;
+    }
+
+    .menu a {
+        font-size: clamp(12px, 2.8vw, 20px);
     }
 
     .user-account {
@@ -799,23 +800,90 @@ input[type="password"]::-webkit-textfield-decoration-container {
     #logoutBtn {
         font-size: 12px;
     }
+
+    .login-panel {
+        width: min(88%, 400px);
+        padding: 25px 20px;
+    }
 }
 
+
+/* PHONE */
 @media (max-width: 480px) {
 
     body {
-        padding: 8px;
+        padding: 5px;
+    }
+
+    .stage {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1376 / 768;
+    }
+
+    .menu a {
+        font-size: clamp(10px, 3.8vw, 17px);
+    }
+
+    .user-account {
+        top: 10px;
+        right: 10px;
+    }
+
+    .user-name {
+        font-size: 11px;
+    }
+
+    #logoutBtn {
+        font-size: 10px;
     }
 
     .login-panel {
         width: 92%;
-
-        padding:
-            25px 18px;
+        padding: 25px 18px;
     }
 
     .login-panel h2 {
         font-size: 21px;
+    }
+
+    .exit-actions {
+        gap: 8px;
+    }
+
+    .exit-actions button {
+        padding: 8px 14px;
+    }
+}
+
+
+/* SMALL PHONE */
+@media (max-width: 360px) {
+
+    body {
+        padding: 2px;
+    }
+
+    .menu a {
+        font-size: 12px;
+    }
+
+    .user-account {
+        top: 7px;
+        right: 7px;
+    }
+
+    .user-name {
+        font-size: 10px;
+    }
+
+    #logoutBtn {
+        font-size: 9px;
+    }
+
+    .login-panel {
+        width: 94%;
+        padding: 22px 15px;
     }
 
     .item-2,
