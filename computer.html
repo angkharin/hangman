@@ -1,243 +1,248 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>หมวดคอมพิวเตอร์และเทคโนโลยี</title>
+  <title>หมวดคอมพิวเตอร์และเทคโนโลยี</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
 
-<style>
-  :root {
-    --menu-color: #ffffff;
-    --menu-hover: #57c2ff;
-  }
+  <style>
+    :root {
+      --menu-color: #ffffff;
+      --menu-hover: #57c2ff;
+    }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    height: 100%;
-  }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+    }
 
-  body {
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
+    body {
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    padding: 24px;
+      padding: 24px;
 
-    font-family: "Niramit", sans-serif;
-  }
+      font-family: "Niramit", sans-serif;
+    }
 
-  /* พื้นหลังใช้แบบเดียวกับ categories.html */
-  .stage {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    aspect-ratio: 1376 / 768;
+    /* พื้นหลังใช้แบบเดียวกับ categories.html */
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      aspect-ratio: 1376 / 768;
 
-    background-image: url("image/main.png");
-    background-size: cover;
-    background-position: center;
+      background-image: url("image/main.png");
+      background-size: cover;
+      background-position: center;
 
-    border-radius: 4px;
-    overflow: hidden;
-  }
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-  /* ชื่อหมวดด้านบน */
-  .page-title {
-    position: absolute;
+    /* ชื่อหมวดด้านบน */
+    .page-title {
+      position: absolute;
 
-    top: 21%;
-    left: 63%;
+      top: 21%;
+      left: 63%;
 
-    margin-top: 10px;
+      margin-top: 10px;
 
-    transform: translate(-50%, -100%);
+      transform: translate(-50%, -100%);
 
-    color: #ffffff;
+      color: #ffffff;
 
-    font-weight: 600;
-    letter-spacing: 0.02em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
 
-    text-align: center;
-    white-space: nowrap;
+      text-align: center;
+      white-space: nowrap;
 
-    font-size: clamp(16px, 2.6vw, 26px);
-  }
+      font-size: clamp(16px, 2.6vw, 26px);
+    }
 
-  nav.menu {
-    position: absolute;
-    inset: 0;
-  }
+    nav.menu {
+      position: absolute;
+      inset: 0;
+    }
 
-  .menu a {
-    position: absolute;
+    .menu a {
+      position: absolute;
 
-    left: 50%;
+      left: 50%;
 
-    transform: translate(-50%, -100%);
+      transform: translate(-50%, -100%);
 
-    font-family: "Niramit", sans-serif;
-    font-weight: 500;
-    font-style: normal;
+      font-family: "Niramit", sans-serif;
+      font-weight: 500;
+      font-style: normal;
 
-    color: var(--menu-color);
+      color: var(--menu-color);
 
-    text-decoration: none;
+      text-decoration: none;
 
-    letter-spacing: 0.02em;
+      letter-spacing: 0.02em;
 
-    white-space: nowrap;
+      white-space: nowrap;
 
-    font-size: clamp(11px, 2vw, 22px);
+      font-size: clamp(11px, 2vw, 22px);
 
-    padding-bottom: 4px;
+      padding-bottom: 4px;
 
-    transition:
-      color 0.15s ease,
-      transform 0.15s ease;
+      transition:
+        color 0.15s ease,
+        transform 0.15s ease;
 
-    background: none;
-    border: none;
+      background: none;
+      border: none;
 
-    cursor: pointer;
-  }
+      cursor: pointer;
+    }
 
-  .menu a:hover,
-  .menu a:focus-visible {
-    color: var(--menu-hover);
+    .menu a:hover,
+    .menu a:focus-visible {
+      color: var(--menu-hover);
 
-    transform: translate(-50%, -105%);
-  }
+      transform: translate(-50%, -105%);
+    }
 
-  .menu a:focus-visible {
-    outline: 1px solid var(--menu-hover);
-    outline-offset: 4px;
-  }
+    .menu a:focus-visible {
+      outline: 1px solid var(--menu-hover);
+      outline-offset: 4px;
+    }
 
-  .item-1 {
-  margin-top: 5px;
-  top: 30%;
-  left: 65%;
-  margin-left: clamp(30px, 11.8vw, 130px);
-}
+    .item-1 {
+      margin-top: 5px;
+      top: 30%;
+      left: 65%;
+      margin-left: clamp(30px, 11.8vw, 130px);
+    }
 
-.item-2 {
-  margin-top: 5px;
-  top: 37.6%;
-  left: 62.6%;
-  margin-left: clamp(30px, 11.8vw, 130px);
-}
+    .item-2 {
+      margin-top: 5px;
+      top: 37.6%;
+      left: 62.6%;
+      margin-left: clamp(30px, 11.8vw, 130px);
+    }
 
 
-/* ================================
+    /* ================================
    RESPONSIVE
 ================================ */
 
-/* TABLET */
-@media (max-width: 768px) {
+    /* TABLET */
+    @media (max-width: 768px) {
 
-  body {
-    padding: 12px;
-  }
+      body {
+        padding: 12px;
+      }
 
-  .stage {
-    width: 100%;
-    max-width: 100%;
-    aspect-ratio: 1376 / 768;
-  }
+      .stage {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1376 / 768;
+      }
 
-  .page-title {
-    font-size: clamp(15px, 3vw, 22px);
-  }
+      .page-title {
+        font-size: clamp(15px, 3vw, 22px);
+      }
 
-  .menu a {
-    font-size: clamp(12px, 2.8vw, 20px);
-  }
-}
-
-
-/* PHONE */
-@media (max-width: 480px) {
-
-  body {
-    padding: 5px;
-  }
-
-  .stage {
-    width: 100%;
-    max-width: 100%;
-    aspect-ratio: 1376 / 768;
-  }
-
-  .page-title {
-    font-size: clamp(13px, 4vw, 18px);
-  }
-
-  .menu a {
-    font-size: clamp(10px, 3.8vw, 17px);
-  }
-}
+      .menu a {
+        font-size: clamp(12px, 2.8vw, 20px);
+      }
+    }
 
 
-/* SMALL PHONE */
-@media (max-width: 360px) {
+    /* PHONE */
+    @media (max-width: 480px) {
 
-  body {
-    padding: 2px;
-  }
+      body {
+        padding: 5px;
+      }
 
-  .page-title {
-    font-size: 13px;
-  }
+      .stage {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1376 / 768;
+      }
 
-  .menu a {
-    font-size: 12px;
-  }
-}
-</style>
+      .page-title {
+        font-size: clamp(13px, 4vw, 18px);
+      }
+
+      .menu a {
+        font-size: clamp(10px, 3.8vw, 17px);
+      }
+    }
+
+
+    /* SMALL PHONE */
+    @media (max-width: 360px) {
+
+      body {
+        padding: 2px;
+      }
+
+      .page-title {
+        font-size: 13px;
+      }
+
+      .menu a {
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="stage">
+  <div class="stage">
 
-  <!-- ชื่อหมวด -->
-  <div class="page-title">
-    หมวดคอมพิวเตอร์และเทคโนโลยี
+    <!-- ชื่อหมวด -->
+    <div class="page-title">
+      หมวดคอมพิวเตอร์และเทคโนโลยี
+    </div>
+
+    <nav class="menu" aria-label="เมนูหัวข้อ">
+
+      <!-- หัวข้อย่อย -->
+      <a href="computer-game.html" class="item-1">
+        อุปกรณ์คอมพิวเตอร์
+      </a>
+
+      <!-- กลับ -->
+      <a href="categories.html" class="item-2">
+        กลับหน้าหมวดหมู่
+      </a>
+
+    </nav>
+
   </div>
 
-  <nav class="menu" aria-label="เมนูหัวข้อ">
-
-    <!-- หัวข้อย่อย -->
-    <a href="computer-game.html" class="item-1">
-      อุปกรณ์คอมพิวเตอร์
-    </a>
-
-    <!-- กลับ -->
-    <a href="categories.html" class="item-2">
-      กลับหน้าหมวดหมู่
-    </a>
-
-  </nav>
-
-</div>
-
 </body>
+
 </html>

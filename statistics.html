@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สถิติการเล่น</title>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; min-height: 100%; }
+        body {
+            min-height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            font-family: "Niramit", sans-serif;
+            color: #fff;
+        }
+        .stage {
+            position: relative;
+            width: min(1100px, 100%);
+            aspect-ratio: 1376 / 768;
+            background: url("image/main.png") center / cover no-repeat;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .sound-btn {
+            position: absolute; right: 3.2%; top: 7.5%;
+            width: 52px; height: 52px;
+            border: 3px solid #999; border-radius: 15px;
+            background: #e94b16; color: #fff;
+            font-size: 25px; cursor: pointer; z-index: 5;
+        }
+        .left-panel {
+            position: absolute; left: 7%; top: 27%;
+            width: 15%; min-width: 145px;
+            padding: 18px 12px 20px;
+            border: 2px solid #999; border-radius: 24px;
+            background: rgba(87, 194, 255, 0.96);
+            color: #444; text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,.35);
+        }
+        .left-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+        .my-name, .my-score {
+            background: #fff; border: 1px solid #bbb; border-radius: 13px;
+            padding: 8px 6px; margin-bottom: 12px;
+            font-size: 16px; font-weight: 600;
+            min-height: 42px; overflow: hidden; text-overflow: ellipsis;
+        }
+        .my-score { margin-bottom: 0; }
+        .label { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .leaderboard {
+            position: absolute; left: 24%; top: 14%;
+            width: 54%; height: 72%;
+            border: 3px solid #999; border-radius: 40px;
+            background: rgba(87, 194, 255, 0.98);
+            color: #444; overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,.35);
+        }
+        .leaderboard-head {
+            text-align: center; padding: 18px 20px 8px;
+        }
+        .category { font-size: clamp(17px, 2vw, 24px); font-weight: 700; }
+        .subtopic { font-size: clamp(15px, 1.7vw, 20px); font-weight: 600; margin-top: 2px; }
+        .table-wrap { height: calc(100% - 95px); padding: 0 18px 12px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: clamp(12px, 1.35vw, 17px); }
+        th { padding: 8px 4px; font-weight: 700; border-bottom: 2px solid #bbb; }
+        td { padding: 6px 4px; text-align: center; font-weight: 500; height: 29px; }
+        th:nth-child(1), td:nth-child(1) { width: 18%; }
+        th:nth-child(2), td:nth-child(2) { width: 34%; text-align: left; padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        th:nth-child(3), td:nth-child(3) { width: 24%; }
+        th:nth-child(4), td:nth-child(4) { width: 24%; }
+        .right-controls {
+            position: absolute; right: 7%; top: 34%;
+            display: flex; flex-direction: column; gap: 20px; align-items: center;
+        }
+        .arrow-btn {
+            width: 82px; height: 62px; border: 0; border-radius: 18px;
+            background: #57c2ff; color: #555; font-size: 40px; line-height: 1;
+            cursor: pointer; box-shadow: 0 3px 5px rgba(0,0,0,.25);
+        }
+        .arrow-btn:hover:not(:disabled) { background: #fff; color: #555; }
+        .arrow-btn:disabled { opacity: .38; cursor: default; }
+        .back-btn {
+            position: absolute; left: 7%; bottom: 7%;
+            border: 0; border-radius: 14px; padding: 10px 22px;
+            background: #57c2ff; color: #555; font-family: inherit;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 3px 5px rgba(0,0,0,.25);
+        }
+        .back-btn:hover { background: #fff; }
+        .page-info {
+            position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%);
+            color: #555; font-size: 14px; font-weight: 600;
+        }
+        .status { text-align: center; padding-top: 35px; font-size: 17px; }
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .left-panel { left: 4%; min-width: 120px; width: 18%; padding: 12px 8px; }
+            .leaderboard { left: 22%; width: 58%; }
+            .right-controls { right: 3%; }
+            .arrow-btn { width: 60px; height: 52px; font-size: 32px; }
+            .back-btn { left: 4%; font-size: 13px; padding: 8px 15px; }
+            .sound-btn { width: 44px; height: 44px; font-size: 21px; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 5px; }
+            .stage { width: 100%; }
+            .left-panel { left: 2%; top: 29%; min-width: 80px; width: 19%; padding: 8px 5px; border-radius: 14px; }
+            .left-title { font-size: 11px; margin-bottom: 6px; }
+            .label { font-size: 9px; }
+            .my-name, .my-score { font-size: 10px; min-height: 27px; padding: 4px 2px; border-radius: 8px; margin-bottom: 6px; }
+            .leaderboard { left: 22%; top: 17%; width: 61%; height: 68%; border-radius: 22px; }
+            .leaderboard-head { padding: 10px 5px 4px; }
+            .table-wrap { padding: 0 4px 5px; height: calc(100% - 65px); }
+            th { padding: 4px 1px; }
+            td { padding: 3px 1px; height: 22px; }
+            .right-controls { right: 2%; top: 36%; gap: 10px; }
+            .arrow-btn { width: 43px; height: 40px; border-radius: 10px; font-size: 24px; }
+            .back-btn { left: 2%; bottom: 5%; font-size: 10px; padding: 5px 9px; border-radius: 8px; }
+            .page-info { bottom: 5%; font-size: 9px; }
+            .sound-btn { top: 5%; right: 2%; width: 34px; height: 34px; border-radius: 9px; font-size: 16px; }
+        }
+
+        /* TABLET */
+@media (max-width: 768px) {
+
+  body {
+    padding: 12px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1376 / 768;
+  }
+
+  .page-title {
+    font-size: clamp(15px, 3vw, 22px);
+  }
+
+  .menu a {
+    font-size: clamp(12px, 2.8vw, 20px);
+  }
+}
+
+
+/* PHONE */
+@media (max-width: 480px) {
+
+  body {
+    padding: 5px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1376 / 768;
+  }
+
+  .page-title {
+    font-size: clamp(13px, 4vw, 18px);
+  }
+
+  .menu a {
+    font-size: clamp(10px, 3.8vw, 17px);
+  }
+}
+
+
+/* SMALL PHONE */
+@media (max-width: 360px) {
+
+  body {
+    padding: 2px;
+  }
+
+  .page-title {
+    font-size: 13px;
+  }
+
+  .menu a {
+    font-size: 12px;
+  }
+}
+    </style>
+</head>
+<body>
+<div class="stage">
+    <button class="sound-btn" id="soundBtn" type="button">🔊</button>
+
+    <aside class="left-panel">
+        <div class="left-title">สถิติของเรา</div>
+        <div class="label">ชื่อ</div>
+        <div class="my-name" id="myName">-</div>
+        <div class="label">คะแนน</div>
+        <div class="my-score" id="myScore">-</div>
+    </aside>
+
+    <main class="leaderboard">
+        <div class="leaderboard-head">
+            <div class="category">หมวดคอมพิวเตอร์และเทคโนโลยี</div>
+            <div class="subtopic">อุปกรณ์คอมพิวเตอร์</div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>อันดับที่</th><th>ชื่อ</th><th>คะแนน</th><th>วันที่</th></tr>
+                </thead>
+                <tbody id="rankingBody"></tbody>
+            </table>
+            <div class="status" id="status">กำลังโหลดข้อมูล...</div>
+        </div>
+    </main>
+
+    <div class="right-controls">
+        <button class="arrow-btn" id="upBtn" type="button" aria-label="อันดับก่อนหน้า">▲</button>
+        <button class="arrow-btn" id="downBtn" type="button" aria-label="อันดับถัดไป">▼</button>
+    </div>
+
+    <button class="back-btn" id="backBtn" type="button">กลับหน้าเมนูหลัก</button>
+    <div class="page-info" id="pageInfo">1–10 / 50</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
+    authDomain: "hangman-a1562.firebaseapp.com",
+    projectId: "hangman-a1562",
+    storageBucket: "hangman-a1562.firebasestorage.app",
+    messagingSenderId: "1025680486155",
+    appId: "1:1025680486155:web:c1ddb3c5c98471b8f27c0e"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const myName = document.getElementById("myName");
+const myScore = document.getElementById("myScore");
+const rankingBody = document.getElementById("rankingBody");
+const status = document.getElementById("status");
+const upBtn = document.getElementById("upBtn");
+const downBtn = document.getElementById("downBtn");
+const pageInfo = document.getElementById("pageInfo");
+const backBtn = document.getElementById("backBtn");
+const soundBtn = document.getElementById("soundBtn");
+
+const CATEGORY = "คอมพิวเตอร์และเทคโนโลยี";
+const SUBTOPIC = "อุปกรณ์คอมพิวเตอร์";
+const PAGE_SIZE = 10;
+const MAX_RANKING = 50;
+let rankings = [];
+let page = 0;
+let currentUser = null;
+
+function formatDate(timestamp) {
+    if (!timestamp) return "-";
+    const date = typeof timestamp.toDate === "function" ? timestamp.toDate() : new Date(timestamp);
+    if (Number.isNaN(date.getTime())) return "-";
+    return new Intl.DateTimeFormat("th-TH", { day: "2-digit", month: "2-digit", year: "numeric" }).format(date);
+}
+
+function renderPage() {
+    rankingBody.innerHTML = "";
+    const start = page * PAGE_SIZE;
+    const rows = rankings.slice(start, start + PAGE_SIZE);
+
+    if (!rows.length) {
+        status.style.display = "block";
+        status.textContent = "ยังไม่มีข้อมูลคะแนน";
+    } else {
+        status.style.display = "none";
+        rows.forEach((item, index) => {
+            const tr = document.createElement("tr");
+            const rank = start + index + 1;
+            tr.innerHTML = `<td>${rank}</td><td title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</td><td>${item.score}</td><td>${formatDate(item.createdAt)}</td>`;
+            rankingBody.appendChild(tr);
+        });
+    }
+
+    const shownStart = rankings.length ? start + 1 : 0;
+    const shownEnd = Math.min(start + PAGE_SIZE, rankings.length);
+    pageInfo.textContent = `${shownStart}–${shownEnd} / ${MAX_RANKING}`;
+    upBtn.disabled = page === 0;
+    downBtn.disabled = page >= 4 || start + PAGE_SIZE >= rankings.length;
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[char]));
+}
+
+async function loadStatistics(user) {
+    currentUser = user;
+    myName.textContent = user?.displayName || "ผู้ใช้";
+
+    if (!user) {
+        myScore.textContent = "-";
+        status.style.display = "block";
+        status.textContent = "กรุณาเข้าสู่ระบบเพื่อดูสถิติการเล่น";
+        upBtn.disabled = true;
+        downBtn.disabled = true;
+        return;
+    }
+
+    try {
+        const snapshot = await getDocs(collection(db, "gameScores"));
+        const allScores = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.category === CATEGORY && data.subtopic === SUBTOPIC && typeof data.score === "number") {
+                allScores.push({ id: doc.id, ...data });
+            }
+        });
+
+        allScores.sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            const at = a.createdAt?.toMillis?.() ?? 0;
+            const bt = b.createdAt?.toMillis?.() ?? 0;
+            return bt - at;
+        });
+
+        rankings = allScores.slice(0, MAX_RANKING);
+
+        const myScores = rankings.filter(item => item.uid === user.uid);
+        if (myScores.length) {
+            // แสดงคะแนนการเล่นที่เสร็จล่าสุดของเราในอันดับที่เก็บไว้
+            const latestMine = [...myScores].sort((a, b) => {
+                const at = a.createdAt?.toMillis?.() ?? 0;
+                const bt = b.createdAt?.toMillis?.() ?? 0;
+                return bt - at;
+            })[0];
+            myScore.textContent = latestMine.score;
+        } else {
+            myScore.textContent = "ยังไม่มีคะแนน";
+        }
+
+        page = 0;
+        renderPage();
+    } catch (error) {
+        console.error(error);
+        rankings = [];
+        myScore.textContent = "-";
+        status.style.display = "block";
+        status.textContent = "ไม่สามารถโหลดข้อมูลคะแนนได้";
+        upBtn.disabled = true;
+        downBtn.disabled = true;
+    }
+}
+
+onAuthStateChanged(auth, loadStatistics);
+
+upBtn.addEventListener("click", () => {
+    if (page > 0) { page--; renderPage(); }
+});
+
+downBtn.addEventListener("click", () => {
+    if (page < 4 && (page + 1) * PAGE_SIZE < rankings.length) { page++; renderPage(); }
+});
+
+backBtn.addEventListener("click", () => {
+    window.location.href = "index.html";
+});
+
+let soundOn = true;
+soundBtn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? "🔊" : "🔇";
+});
+</script>
+</body>
+</html>

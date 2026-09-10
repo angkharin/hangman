@@ -1,1932 +1,2143 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hangman - อุปกรณ์คอมพิวเตอร์</title>
+    <title>อุปกรณ์คอมพิวเตอร์</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: "Niramit", sans-serif;
+        }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-    font-family: "Niramit", sans-serif;
-}
+        .game-stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            max-width: 1376px;
+            max-height: 768px;
+            margin: auto;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-.game-stage {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    max-width: 1376px;
-    max-height: 768px;
-    margin: auto;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* =========================
+        /* =========================
    ข้อ
 ========================= */
 
-.question-number {
-    position: absolute;
-    top: 2.5%;
-    left: 3%;
-    color: white;
-    font-size: clamp(17px, 1.7vw, 25px);
-    font-weight: 700;
-    text-shadow: 2px 2px 3px #000;
-}
+        .question-number {
+            position: absolute;
+            top: 2.5%;
+            left: 3%;
+            color: white;
+            font-size: clamp(17px, 1.7vw, 25px);
+            font-weight: 700;
+            text-shadow: 2px 2px 3px #000;
+        }
 
-/* =========================
+        /* =========================
    ระดับ
 ========================= */
 
-.level {
-    position: absolute;
-    top: 7%;
-    left: 3%;
-    color: white;
-    font-size: clamp(15px, 1.5vw, 22px);
-    font-weight: 700;
-    text-shadow: 2px 2px 3px #000;
-}
+        .level {
+            position: absolute;
+            top: 7%;
+            left: 3%;
+            color: white;
+            font-size: clamp(15px, 1.5vw, 22px);
+            font-weight: 700;
+            text-shadow: 2px 2px 3px #000;
+        }
 
-/* =========================
+        /* =========================
    หมวด
 ========================= */
 
-.category {
-    position: absolute;
-    top: 4%;
-    left: 50%;
-    transform: translateX(-50%);
+        .category {
+            position: absolute;
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%);
 
-    min-width: 300px;
-    padding: 7px 25px;
+            min-width: 300px;
+            padding: 7px 25px;
 
-    background: white;
-    color: #111;
+            background: white;
+            color: #111;
 
-    border: 4px solid #aaa;
-    border-radius: 35px;
+            border: 4px solid #aaa;
+            border-radius: 35px;
 
-    text-align: center;
+            text-align: center;
 
-    font-size: clamp(18px, 2vw, 29px);
-    font-weight: 700;
+            font-size: clamp(18px, 2vw, 29px);
+            font-weight: 700;
 
-    box-shadow:
-        0 2px 0 #fff,
-        0 4px 8px rgba(0,0,0,.5);
-}
+            box-shadow:
+                0 2px 0 #fff,
+                0 4px 8px rgba(0, 0, 0, .5);
+        }
 
-/* =========================
+        /* =========================
    ปุ่มเสียง
 ========================= */
 
-.sound-btn {
-    position: absolute;
-    top: 4%;
-    right: 3%;
+        .sound-btn {
+            position: absolute;
+            top: 4%;
+            right: 3%;
 
-    width: 55px;
-    height: 55px;
+            width: 55px;
+            height: 55px;
 
-    border: 3px solid #999;
-    border-radius: 15px;
+            border: 3px solid #999;
+            border-radius: 15px;
 
-    background: #e94b16;
-    color: white;
+            background: #e94b16;
+            color: white;
 
-    font-size: 27px;
-    cursor: pointer;
-}
+            font-size: 27px;
+            cursor: pointer;
+        }
 
-/* =========================
+        /* =========================
    สระ
 ========================= */
 
-.vowels {
-    position: absolute;
-    left: 6%;
-    top: 28%;
+        .vowels {
+            position: absolute;
+            left: 6%;
+            top: 28%;
 
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-.vowel {
-    width: 55px;
-    height: 55px;
+        .vowel {
+            width: 55px;
+            height: 55px;
 
-    border: 3px solid #aaa;
-    border-radius: 15px;
+            border: 3px solid #aaa;
+            border-radius: 15px;
 
-    background: white;
-    color: #a40000;
+            background: white;
+            color: #a40000;
 
-    font-family: inherit;
-    font-size: 27px;
-    font-weight: 700;
+            font-family: inherit;
+            font-size: 27px;
+            font-weight: 700;
 
-    box-shadow:
-        0 2px 0 #fff,
-        0 3px 5px rgba(0,0,0,.4);
+            box-shadow:
+                0 2px 0 #fff,
+                0 3px 5px rgba(0, 0, 0, .4);
 
-    cursor: pointer;
-}
+            cursor: pointer;
+        }
 
-.vowel:disabled {
-    opacity: .4;
-    cursor: default;
-}
+        .vowel:disabled {
+            opacity: .4;
+            cursor: default;
+        }
 
-/* =========================
+        /* =========================
    Hangman
 ========================= */
 
-.hangman-area {
-    position: absolute;
-    top: 19%;
-    left: 50%;
-    transform: translateX(-50%);
+        .hangman-area {
+            position: absolute;
+            top: 19%;
+            left: 50%;
+            transform: translateX(-50%);
 
-    width: 330px;
-    height: 330px;
+            width: 330px;
+            height: 330px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.hangman-svg {
-    width: 100%;
-    height: 100%;
-}
+        .hangman-svg {
+            width: 100%;
+            height: 100%;
+        }
 
-/* =========================
+        /* =========================
    เส้น Hangman สีขาว
 ========================= */
 
-.hang-part {
-    stroke: #ffffff !important;
-    stroke-width: 7;
+        .hang-part {
+            stroke: #ffffff !important;
+            stroke-width: 7;
 
-    fill: none !important;
+            fill: none !important;
 
-    stroke-linecap: round;
-    stroke-linejoin: round;
+            stroke-linecap: round;
+            stroke-linejoin: round;
 
-    opacity: 0;
+            opacity: 0;
 
-    transition: opacity .3s ease;
-}
+            transition: opacity .3s ease;
+        }
 
-.hang-part.show {
-    opacity: 1;
-}
+        .hang-part.show {
+            opacity: 1;
+        }
 
-/* =========================
+        /* =========================
    Stickman แกว่ง
 ========================= */
 
-#stickman.swing {
-    transform-box: view-box;
-    transform-origin: 210px 75px;
+        #stickman.swing {
+            transform-box: view-box;
+            transform-origin: 210px 75px;
 
-    animation: stickmanSwing 1s ease-in-out;
-}
+            animation: stickmanSwing 1s ease-in-out;
+        }
 
-@keyframes stickmanSwing {
+        @keyframes stickmanSwing {
 
-    0% {
-        transform: rotate(0deg);
-    }
+            0% {
+                transform: rotate(0deg);
+            }
 
-    50% {
-        transform: rotate(18deg);
-    }
+            50% {
+                transform: rotate(18deg);
+            }
 
-    100% {
-        transform: rotate(0deg);
-    }
-}
+            100% {
+                transform: rotate(0deg);
+            }
+        }
 
-/* =========================
+        /* =========================
    ช่องคำ
 ========================= */
 
-.word-area {
-    position: absolute;
+        .word-area {
+            position: absolute;
 
-    top: 77%;
-    left: 50%;
+            top: 77%;
+            left: 50%;
 
-    transform: translateX(-50%);
+            transform: translateX(-50%);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    gap: 7px;
+            gap: 7px;
 
-    max-width: 65%;
-}
+            max-width: 65%;
+        }
 
-.letter-slot {
-    width: 48px;
-    height: 48px;
+        .letter-slot {
+            width: 48px;
+            height: 48px;
 
-    flex-shrink: 0;
+            flex-shrink: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    background: #ffd83d;
+            background: #ffd83d;
 
-    border: 2px solid #777;
-    border-radius: 12px;
+            border: 2px solid #777;
+            border-radius: 12px;
 
-    color: #111;
+            color: #111;
 
-    font-size: 26px;
-    font-weight: 700;
-}
+            font-size: 26px;
+            font-weight: 700;
+        }
 
-/* =========================
+        /* =========================
    Keyboard
 ========================= */
 
-.keyboard {
-    position: absolute;
+        .keyboard {
+            position: absolute;
 
-    right: 5%;
-    top: 24%;
+            right: 5%;
+            top: 24%;
 
-    width: 180px;
+            width: 180px;
 
-    display: grid;
+            display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr);
 
-    gap: 7px;
-}
+            gap: 7px;
+        }
 
-.key {
-    height: 50px;
+        .key {
+            height: 50px;
 
-    border: 3px solid #aaa;
-    border-radius: 15px;
+            border: 3px solid #aaa;
+            border-radius: 15px;
 
-    background: white;
-    color: #a40000;
+            background: white;
+            color: #a40000;
 
-    font-family: inherit;
-    font-size: 24px;
-    font-weight: 700;
+            font-family: inherit;
+            font-size: 24px;
+            font-weight: 700;
 
-    cursor: pointer;
+            cursor: pointer;
 
-    box-shadow:
-        0 2px 0 #fff,
-        0 3px 5px rgba(0,0,0,.4);
-}
+            box-shadow:
+                0 2px 0 #fff,
+                0 3px 5px rgba(0, 0, 0, .4);
+        }
 
-.key:hover {
-    transform: translateY(-2px);
-}
+        .key:hover {
+            transform: translateY(-2px);
+        }
 
-.key:disabled {
-    opacity: .4;
-    cursor: default;
-    transform: none;
-}
+        .key:disabled {
+            opacity: .4;
+            cursor: default;
+            transform: none;
+        }
 
-/* =========================
+        /* =========================
    คะแนน
 ========================= */
 
-.score-box {
-    position: absolute;
+        .score-box {
+            position: absolute;
 
-    right: 7%;
-    bottom: 1%;
+            right: 7%;
+            bottom: 1%;
 
-    width: 105px;
-    height: 52px;
+            width: 105px;
+            height: 52px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    background: white;
+            background: white;
 
-    border: 3px solid #aaa;
-    border-radius: 25px;
+            border: 3px solid #aaa;
+            border-radius: 25px;
 
-    color: #111;
+            color: #111;
 
-    font-size: 24px;
-    font-weight: 700;
+            font-size: 24px;
+            font-weight: 700;
 
-    box-shadow: 0 2px 4px rgba(0,0,0,.4);
-}
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
+        }
 
-/* =========================
+        /* =========================
    ปุ่มกลับ
 ========================= */
 
-.back-btn {
-    position: absolute;
+        .back-btn {
+            position: absolute;
 
-    left: 3%;
-    bottom: 4%;
+            left: 3%;
+            bottom: 4%;
 
-    width: 55px;
-    height: 55px;
+            width: 55px;
+            height: 55px;
 
-    border: 3px solid #222;
-    border-radius: 15px;
+            border: 3px solid #222;
+            border-radius: 15px;
 
-    background: #4caf50;
-    color: white;
+            background: #4caf50;
+            color: white;
 
-    font-size: 30px;
-    font-weight: 700;
+            font-size: 30px;
+            font-weight: 700;
 
-    cursor: pointer;
-}
+            cursor: pointer;
+        }
 
-/* =========================
+        /* =========================
    ปุ่มคำใบ้
 ========================= */
 
-.hint-button {
-    position: absolute;
+        .hint-button {
+            position: absolute;
 
-    left: 9%;
-    bottom: 4%;
+            left: 9%;
+            bottom: 4%;
 
-    width: clamp(38px, 4.5vw, 55px);
-    height: clamp(38px, 4.5vw, 55px);
+            width: clamp(38px, 4.5vw, 55px);
+            height: clamp(38px, 4.5vw, 55px);
 
-    border: 0;
-    border-radius: 14px;
+            border: 0;
+            border-radius: 14px;
 
-    background: #ffd83d;
-    color: #fff;
+            background: #ffd83d;
+            color: #fff;
 
-    font-size: clamp(20px, 2.5vw, 30px);
+            font-size: clamp(20px, 2.5vw, 30px);
 
-    cursor: pointer;
+            cursor: pointer;
 
-    z-index: 10;
+            z-index: 10;
 
-    box-shadow:
-        inset 0 0 0 2px #c5a52e,
-        0 2px 0 rgba(0,0,0,.35);
-}
+            box-shadow:
+                inset 0 0 0 2px #c5a52e,
+                0 2px 0 rgba(0, 0, 0, .35);
+        }
 
-.hint-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    background: #ffe36b;
-}
+        .hint-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: #ffe36b;
+        }
 
-.hint-button:disabled {
-    opacity: .35;
-    cursor: not-allowed;
-}
+        .hint-button:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
 
-.hint-count {
-    position: absolute;
+        .hint-count {
+            position: absolute;
 
-    left: 9%;
-    bottom: 0.8%;
+            left: 9%;
+            bottom: 0.8%;
 
-    width: clamp(38px, 4.5vw, 55px);
+            width: clamp(38px, 4.5vw, 55px);
 
-    text-align: center;
+            text-align: center;
 
-    color: white;
+            color: white;
 
-    font-size: clamp(9px, 1vw, 12px);
-    font-weight: 600;
+            font-size: clamp(9px, 1vw, 12px);
+            font-weight: 600;
 
-    z-index: 11;
+            z-index: 11;
 
-    pointer-events: none;
+            pointer-events: none;
 
-    text-shadow: 0 1px 2px #000;
-}
+            text-shadow: 0 1px 2px #000;
+        }
 
-/* =========================
+        /* =========================
    Result
 ========================= */
 
-.result-screen {
-    position: absolute;
-    inset: 0;
+        .result-screen {
+            position: absolute;
+            inset: 0;
 
-    display: none;
-    align-items: center;
-    justify-content: center;
+            display: none;
+            align-items: center;
+            justify-content: center;
 
-    background: rgba(0,0,0,.88);
+            background: rgba(0, 0, 0, .88);
 
-    z-index: 100;
-}
+            z-index: 100;
+        }
 
-.result-box {
-    width: min(700px, 85%);
-    max-height: 90%;
+        .result-box {
+            width: min(700px, 85%);
+            max-height: 90%;
 
-    padding: 25px;
+            padding: 25px;
 
-    overflow-y: auto;
+            overflow-y: auto;
 
-    text-align: center;
+            text-align: center;
 
-    background: white;
+            background: white;
 
-    border: 5px solid #777;
-    border-radius: 25px;
+            border: 5px solid #777;
+            border-radius: 25px;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,.7);
-}
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .7);
+        }
 
-.result-title {
-    margin: 0 0 10px;
+        .result-title {
+            margin: 0 0 10px;
 
-    color: #d00000;
+            color: #d00000;
 
-    font-size: 42px;
-    font-weight: 700;
-}
+            font-size: 42px;
+            font-weight: 700;
+        }
 
-.result-title.correct {
-    color: #159447;
-}
+        .result-title.correct {
+            color: #159447;
+        }
 
-.result-image {
-    width: 250px;
-    height: 150px;
+        .result-image {
+            width: 250px;
+            height: 150px;
 
-    margin: 10px auto;
+            margin: 10px auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    background: #eee;
+            background: #eee;
 
-    border: 3px dashed #999;
-    border-radius: 15px;
+            border: 3px dashed #999;
+            border-radius: 15px;
 
-    overflow: hidden;
+            overflow: hidden;
 
-    color: #777;
+            color: #777;
 
-    font-size: 20px;
-}
+            font-size: 20px;
+        }
 
-.result-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+        .result-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-.result-word {
-    font-size: 30px;
-    font-weight: 700;
-}
+        .result-word {
+            font-size: 30px;
+            font-weight: 700;
+        }
 
-.result-meaning {
-    margin: 8px 0;
-    font-size: 23px;
-}
+        .result-meaning {
+            margin: 8px 0;
+            font-size: 23px;
+        }
 
-.result-score {
-    color: #d18a00;
-    font-size: 28px;
-    font-weight: 700;
-}
+        .result-score {
+            color: #d18a00;
+            font-size: 28px;
+            font-weight: 700;
+        }
 
-.result-btn {
-    margin-top: 15px;
+        .result-btn {
+            margin-top: 15px;
 
-    padding: 10px 30px;
+            padding: 10px 30px;
 
-    border: none;
-    border-radius: 15px;
+            border: none;
+            border-radius: 15px;
 
-    background: #4caf50;
-    color: white;
+            background: #4caf50;
+            color: white;
 
-    font-family: inherit;
-    font-size: 23px;
-    font-weight: 700;
+            font-family: inherit;
+            font-size: 23px;
+            font-weight: 700;
 
-    cursor: pointer;
-}
+            cursor: pointer;
+        }
 
-.result-btn.home {
-    background: #333;
-}
+        .result-btn.home {
+            background: #333;
+        }
 
-/* =========================
+        /* =========================
    Responsive
 ========================= */
 
-@media (max-width: 800px) {
+        /* =========================
+   Responsive
+========================= */
 
-    .category {
-        min-width: 190px;
-        padding: 5px 12px;
-        font-size: 17px;
-    }
+        /* TABLET */
+        @media (max-width: 768px) {
 
-    .vowels {
-        left: 4%;
-        top: 27%;
-        gap: 4px;
-    }
+            .category {
+                min-width: 190px;
+                padding: 5px 12px;
+                font-size: 17px;
+            }
 
-    .vowel {
-        width: 40px;
-        height: 40px;
-        font-size: 19px;
-        border-radius: 10px;
-    }
+            .vowels {
+                left: 4%;
+                top: 27%;
+                gap: 4px;
+            }
 
-    .hangman-area {
-        top: 21%;
-        width: 240px;
-        height: 240px;
-    }
+            .vowel {
+                width: 40px;
+                height: 40px;
+                font-size: 19px;
+                border-radius: 10px;
+            }
 
-    .keyboard {
-        right: 3%;
-        top: 25%;
-        width: 125px;
-        gap: 4px;
-    }
+            .hangman-area {
+                top: 21%;
+                width: 240px;
+                height: 240px;
+            }
 
-    .key {
-        height: 39px;
-        font-size: 18px;
-        border-radius: 10px;
-    }
+            .keyboard {
+                right: 3%;
+                top: 25%;
+                width: 125px;
+                gap: 4px;
+            }
 
-    .word-area {
-        top: 67%;
-        gap: 4px;
-        max-width: 70%;
-    }
+            .key {
+                height: 39px;
+                font-size: 18px;
+                border-radius: 10px;
+            }
 
-    .letter-slot {
-        width: 35px;
-        height: 35px;
-        font-size: 20px;
-        border-radius: 9px;
-    }
+            .word-area {
+                top: 67%;
+                gap: 4px;
+                max-width: 70%;
+            }
 
-    .score-box {
-        right: 3%;
-        bottom: 4%;
+            .letter-slot {
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+                border-radius: 9px;
+            }
 
-        width: 80px;
-        height: 45px;
+            .score-box {
+                right: 3%;
+                bottom: 4%;
+                width: 80px;
+                height: 45px;
+                font-size: 19px;
+            }
 
-        font-size: 19px;
-    }
+            .back-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 23px;
+            }
 
-    .back-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 23px;
-    }
+        }
 
-}
 
-</style>
+        /* PHONE */
+        @media (max-width: 480px) {
+
+            body {
+                padding: 5px;
+            }
+
+            .game-stage {
+                width: 100vw;
+                height: 100vh;
+                max-width: 1376px;
+                max-height: 768px;
+            }
+
+            .question-number {
+                font-size: 14px;
+            }
+
+            .level {
+                font-size: 12px;
+            }
+
+            .category {
+                min-width: 150px;
+                padding: 4px 10px;
+                font-size: 14px;
+                border-width: 3px;
+            }
+
+            .sound-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                border-width: 2px;
+                border-radius: 10px;
+            }
+
+            .vowels {
+                left: 2%;
+                top: 25%;
+                gap: 3px;
+            }
+
+            .vowel {
+                width: 32px;
+                height: 32px;
+                font-size: 15px;
+                border-width: 2px;
+                border-radius: 9px;
+            }
+
+            .hangman-area {
+                width: 190px;
+                height: 190px;
+                top: 22%;
+            }
+
+            .keyboard {
+                right: 2%;
+                top: 22%;
+                width: 105px;
+                gap: 3px;
+            }
+
+            .key {
+                height: 32px;
+                font-size: 15px;
+                border-width: 2px;
+                border-radius: 9px;
+            }
+
+            .word-area {
+                top: 67%;
+                gap: 3px;
+                max-width: 75%;
+            }
+
+            .letter-slot {
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
+                border-width: 2px;
+                border-radius: 7px;
+            }
+
+            .score-box {
+                right: 3%;
+                bottom: 4%;
+                width: 65px;
+                height: 35px;
+                font-size: 15px;
+                border-width: 2px;
+            }
+
+            .back-btn {
+                left: 3%;
+                bottom: 4%;
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+                border-width: 2px;
+                border-radius: 10px;
+            }
+
+            .hint-button {
+                left: 9%;
+                bottom: 4%;
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+                border-radius: 9px;
+            }
+
+            .hint-count {
+                left: 9%;
+                bottom: 0.8%;
+                width: 35px;
+                font-size: 8px;
+            }
+
+            .result-box {
+                width: 90%;
+                max-height: 90%;
+                padding: 15px;
+                border-width: 3px;
+                border-radius: 18px;
+            }
+
+            .result-title {
+                font-size: 28px;
+            }
+
+            .result-image {
+                width: 180px;
+                height: 110px;
+            }
+
+            .result-word {
+                font-size: 22px;
+            }
+
+            .result-meaning {
+                font-size: 17px;
+            }
+
+            .result-score {
+                font-size: 21px;
+            }
+
+            .result-btn {
+                font-size: 18px;
+                padding: 8px 20px;
+            }
+
+        }
+
+
+        /* SMALL PHONE */
+        @media (max-width: 360px) {
+
+            .question-number {
+                font-size: 13px;
+            }
+
+            .level {
+                font-size: 11px;
+            }
+
+            .category {
+                min-width: 135px;
+                font-size: 13px;
+                padding: 3px 8px;
+            }
+
+            .sound-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
+            }
+
+            .hangman-area {
+                width: 170px;
+                height: 170px;
+            }
+
+            .keyboard {
+                width: 95px;
+            }
+
+            .key {
+                height: 29px;
+                font-size: 13px;
+            }
+
+            .letter-slot {
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+            }
+
+            .result-title {
+                font-size: 24px;
+            }
+
+            .result-image {
+                width: 150px;
+                height: 90px;
+            }
+
+            .result-word {
+                font-size: 19px;
+            }
+
+            .result-meaning {
+                font-size: 15px;
+            }
+
+            .result-score {
+                font-size: 18px;
+            }
+
+            .result-btn {
+                font-size: 16px;
+                padding: 7px 17px;
+            }
+
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="game-stage">
+    <div class="game-stage">
 
-    <!-- ข้อ -->
+        <!-- ข้อ -->
 
-    <div
-        class="question-number"
-        id="questionNumber">
+        <div class="question-number" id="questionNumber">
 
-        ข้อ 1 / 10
+            ข้อ 1 / 10
 
-    </div>
+        </div>
 
-    <!-- ระดับ -->
+        <!-- ระดับ -->
 
-    <div
-        class="level"
-        id="level">
+        <div class="level" id="level">
 
-        ระดับ: -
+            ระดับ: -
 
-    </div>
+        </div>
 
-    <!-- หมวด -->
+        <!-- หมวด -->
 
-    <div class="category">
+        <div class="category">
 
-        คอมพิวเตอร์และเทคโนโลยี
+            คอมพิวเตอร์และเทคโนโลยี
 
-    </div>
-
-    <!-- เสียง -->
-
-    <button
-        class="sound-btn"
-        id="soundBtn">
-
-        🔊
-
-    </button>
-
-    <!-- สระ -->
-
-    <div class="vowels">
-
-        <button class="vowel">A</button>
-        <button class="vowel">E</button>
-        <button class="vowel">I</button>
-        <button class="vowel">O</button>
-        <button class="vowel">U</button>
-
-    </div>
-
-    <!-- Hangman -->
-
-    <div class="hangman-area">
-
-        <svg
-            class="hangman-svg"
-            viewBox="0 0 300 300">
-
-            <line
-                id="part1"
-                x1="40"
-                y1="270"
-                x2="255"
-                y2="270"
-                class="hang-part"
-            />
-
-            <line
-                id="part2"
-                x1="85"
-                y1="35"
-                x2="85"
-                y2="270"
-                class="hang-part"
-            />
-
-            <line
-                id="part3"
-                x1="85"
-                y1="35"
-                x2="210"
-                y2="35"
-                class="hang-part"
-            />
+        </div>
 
-            <line
-                id="part4"
-                x1="210"
-                y1="35"
-                x2="210"
-                y2="75"
-                class="hang-part"
-            />
+        <!-- เสียง -->
 
-            <g id="stickman">
+        <button class="sound-btn" id="soundBtn">
 
-                <circle
-                    id="part5"
-                    cx="210"
-                    cy="105"
-                    r="30"
-                    class="hang-part"
-                />
-
-                <line
-                    id="part6"
-                    x1="210"
-                    y1="135"
-                    x2="210"
-                    y2="205"
-                    class="hang-part"
-                />
+            🔊
 
-                <line
-                    id="part7"
-                    x1="210"
-                    y1="155"
-                    x2="255"
-                    y2="185"
-                    class="hang-part"
-                />
+        </button>
 
-                <line
-                    id="part8"
-                    x1="210"
-                    y1="155"
-                    x2="165"
-                    y2="185"
-                    class="hang-part"
-                />
+        <!-- สระ -->
 
-                <line
-                    id="part9"
-                    x1="210"
-                    y1="205"
-                    x2="170"
-                    y2="250"
-                    class="hang-part"
-                />
+        <div class="vowels">
 
-                <line
-                    id="part10"
-                    x1="210"
-                    y1="205"
-                    x2="250"
-                    y2="250"
-                    class="hang-part"
-                />
+            <button class="vowel">A</button>
+            <button class="vowel">E</button>
+            <button class="vowel">I</button>
+            <button class="vowel">O</button>
+            <button class="vowel">U</button>
 
-            </g>
+        </div>
 
-        </svg>
+        <!-- Hangman -->
 
-    </div>
+        <div class="hangman-area">
 
-    <!-- ช่องคำ -->
+            <svg class="hangman-svg" viewBox="0 0 300 300">
 
-    <div
-        class="word-area"
-        id="wordArea">
-    </div>
+                <line id="part1" x1="40" y1="270" x2="255" y2="270" class="hang-part" />
 
-    <!-- Keyboard -->
+                <line id="part2" x1="85" y1="35" x2="85" y2="270" class="hang-part" />
 
-    <div
-        class="keyboard"
-        id="keyboard">
-    </div>
+                <line id="part3" x1="85" y1="35" x2="210" y2="35" class="hang-part" />
 
-    <!-- คะแนน -->
+                <line id="part4" x1="210" y1="35" x2="210" y2="75" class="hang-part" />
 
-    <div
-        class="score-box"
-        id="scoreBox">
+                <g id="stickman">
 
-        2000
+                    <circle id="part5" cx="210" cy="105" r="30" class="hang-part" />
 
-    </div>
+                    <line id="part6" x1="210" y1="135" x2="210" y2="205" class="hang-part" />
 
-    <!-- กลับหน้าก่อนหน้า -->
+                    <line id="part7" x1="210" y1="155" x2="255" y2="185" class="hang-part" />
 
-    <button
-        class="back-btn"
-        onclick="goHome()">
+                    <line id="part8" x1="210" y1="155" x2="165" y2="185" class="hang-part" />
 
-        ↩
+                    <line id="part9" x1="210" y1="205" x2="170" y2="250" class="hang-part" />
 
-    </button>
+                    <line id="part10" x1="210" y1="205" x2="250" y2="250" class="hang-part" />
 
-    <!-- ปุ่มคำใบ้ -->
+                </g>
 
-    <button
-        class="hint-button"
-        id="hintButton"
-        type="button"
-        aria-label="คำใบ้"
-        title="คำใบ้">
+            </svg>
 
-        ⭐
+        </div>
 
-    </button>
+        <!-- ช่องคำ -->
 
-    <div
-        class="hint-count"
-        id="hintCount">
+        <div class="word-area" id="wordArea">
+        </div>
 
-        2/2
+        <!-- Keyboard -->
 
-    </div>
+        <div class="keyboard" id="keyboard">
+        </div>
 
-    <!-- Result -->
+        <!-- คะแนน -->
 
-    <div
-        class="result-screen"
-        id="resultScreen">
+        <div class="score-box" id="scoreBox">
 
-        <div class="result-box">
+            2000
 
-            <h1
-                class="result-title"
-                id="resultTitle">
-            </h1>
+        </div>
 
-            <div class="result-image">
+        <!-- กลับหน้าก่อนหน้า -->
 
-                <img
-                    id="resultImage"
-                    src=""
-                    alt=""
-                    style="display:none;"
-                >
+        <button class="back-btn" onclick="goHome()">
 
-                <span
-                    id="imagePlaceholder">
+            ↩
 
-                    ใส่รูปภาพภายหลัง
+        </button>
 
-                </span>
+        <!-- ปุ่มคำใบ้ -->
+
+        <button class="hint-button" id="hintButton" type="button" aria-label="คำใบ้" title="คำใบ้">
+
+            ⭐
+
+        </button>
+
+        <div class="hint-count" id="hintCount">
+
+            2/2
+
+        </div>
+
+        <!-- Result -->
+
+        <div class="result-screen" id="resultScreen">
+
+            <div class="result-box">
+
+                <h1 class="result-title" id="resultTitle">
+                </h1>
+
+                <div class="result-image">
+
+                    <img id="resultImage" src="" alt="" style="display:none;">
+
+                    <span id="imagePlaceholder">
+
+                        ใส่รูปภาพภายหลัง
+
+                    </span>
+
+                </div>
+
+                <div class="result-word" id="resultWord">
+                </div>
+
+                <div class="result-meaning" id="resultMeaning">
+                </div>
+
+                <div class="result-score" id="resultScore">
+                </div>
+
+                <button class="result-btn" id="resultButton">
+
+                    ข้อต่อไป
+
+                </button>
 
             </div>
-
-            <div
-                class="result-word"
-                id="resultWord">
-            </div>
-
-            <div
-                class="result-meaning"
-                id="resultMeaning">
-            </div>
-
-            <div
-                class="result-score"
-                id="resultScore">
-            </div>
-
-            <button
-                class="result-btn"
-                id="resultButton">
-
-                ข้อต่อไป
-
-            </button>
 
         </div>
 
     </div>
 
-</div>
-
-<script>
-
-/* =========================================================
-   คำศัพท์ 10 คำ
-========================================================= */
-
-const words = [
-
-    {
-        word: "KEYBOARD",
-        meaning: "แป้นพิมพ์",
-        image: "image/keyboard.png"
-    },
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
+            authDomain: "hangman-a1562.firebaseapp.com",
+            projectId: "hangman-a1562",
+            storageBucket: "hangman-a1562.firebasestorage.app",
+            messagingSenderId: "1025680486155",
+            appId: "1:1025680486155:web:c1ddb3c5c98471b8f27c0e"
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        const auth = getAuth(firebaseApp);
+        const db = getFirestore(firebaseApp);
+        let loggedInUser = null;
+
+let authReadyResolve;
+
+const authReady = new Promise((resolve) => {
+    authReadyResolve = resolve;
+});
+
+onAuthStateChanged(auth, (user) => {
+
+    loggedInUser = user;
+
+    authReadyResolve(user);
+
+});
+        /* =========================================================
+           คำศัพท์ 10 คำ
+        ========================================================= */
+
+        const words = [
+
+            {
+                word: "KEYBOARD",
+                meaning: "แป้นพิมพ์",
+                image: "image/keyboard.png"
+            },
+
+            {
+                word: "MOUSE",
+                meaning: "เมาส์",
+                image: "image/mouse.png"
+            },
+
+            {
+                word: "MONITOR",
+                meaning: "จอภาพ",
+                image: "image/monitor.png"
+            },
+
+            {
+                word: "PRINTER",
+                meaning: "เครื่องพิมพ์",
+                image: "image/printer.png"
+            },
+
+            {
+                word: "SPEAKER",
+                meaning: "ลำโพง",
+                image: "image/speaker.png"
+            },
+
+            {
+                word: "WEBCAM",
+                meaning: "กล้องเว็บแคม",
+                image: "image/webcam.png"
+            },
+
+            {
+                word: "MICROPHONE",
+                meaning: "ไมโครโฟน",
+                image: "image/microphone.png"
+            },
+
+            {
+                word: "MOTHERBOARD",
+                meaning: "เมนบอร์ด",
+                image: "image/motherboard.png"
+            },
+
+            {
+                word: "PROCESSOR",
+                meaning: "หน่วยประมวลผล",
+                image: "image/processor.png"
+            },
+
+            {
+                word: "GRAPHICSCARD",
+                meaning: "การ์ดจอ",
+                image: "image/graphics-card.png"
+            }
 
-    {
-        word: "MOUSE",
-        meaning: "เมาส์",
-        image: "image/mouse.png"
-    },
-
-    {
-        word: "MONITOR",
-        meaning: "จอภาพ",
-        image: "image/monitor.png"
-    },
-
-    {
-        word: "PRINTER",
-        meaning: "เครื่องพิมพ์",
-        image: "image/printer.png"
-    },
-
-    {
-        word: "SPEAKER",
-        meaning: "ลำโพง",
-        image: "image/speaker.png"
-    },
-
-    {
-        word: "WEBCAM",
-        meaning: "กล้องเว็บแคม",
-        image: "image/webcam.png"
-    },
-
-    {
-        word: "MICROPHONE",
-        meaning: "ไมโครโฟน",
-        image: "image/microphone.png"
-    },
-
-    {
-        word: "MOTHERBOARD",
-        meaning: "เมนบอร์ด",
-        image: "image/motherboard.png"
-    },
-
-    {
-        word: "PROCESSOR",
-        meaning: "หน่วยประมวลผล",
-        image: "image/processor.png"
-    },
-
-    {
-        word: "GRAPHICSCARD",
-        meaning: "การ์ดจอ",
-        image: "image/graphics-card.png"
-    }
-
-];
-
-/* =========================================================
-   ระดับ
-========================================================= */
-
-const levels = [
-
-    {
-        name: "ง่าย",
-        penalty: 10
-    },
-
-    {
-        name: "ปานกลาง",
-        penalty: 100
-    },
-
-    {
-        name: "ยาก",
-        penalty: 500
-    }
-
-];
-
-/* =========================================================
-   ตัวแปร
-========================================================= */
-
-let currentQuestion = 0;
-
-let currentWord = null;
-
-let currentLevel = null;
-
-let currentScore = 2000;
-
-/* คะแนนรวมทั้ง 10 ข้อ */
-let totalScore = 0;
-
-let wrongCount = 0;
-
-let usedWords = [];
-
-/* จำนวนคำใบ้ */
-let hintsRemaining = 2;
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const wordArea =
-    document.getElementById("wordArea");
-
-const keyboard =
-    document.getElementById("keyboard");
-
-const questionNumber =
-    document.getElementById("questionNumber");
-
-const levelText =
-    document.getElementById("level");
-
-const scoreBox =
-    document.getElementById("scoreBox");
-
-const resultScreen =
-    document.getElementById("resultScreen");
-
-const resultTitle =
-    document.getElementById("resultTitle");
-
-const resultWord =
-    document.getElementById("resultWord");
-
-const resultMeaning =
-    document.getElementById("resultMeaning");
-
-const resultScore =
-    document.getElementById("resultScore");
-
-const resultButton =
-    document.getElementById("resultButton");
-
-const resultImage =
-    document.getElementById("resultImage");
-
-const imagePlaceholder =
-    document.getElementById("imagePlaceholder");
-
-/* DOM ของคำใบ้ */
-
-const hintButton =
-    document.getElementById("hintButton");
-
-const hintCount =
-    document.getElementById("hintCount");
-
-/* =========================================================
-   ลำดับ Hangman 10 ขั้น
-========================================================= */
-
-const hangmanParts = [
-
-    "part1",
-    "part2",
-    "part3",
-    "part4",
-    "part5",
-    "part6",
-    "part7",
-    "part8",
-    "part9",
-    "part10"
-
-];
-
-/* =========================================================
-   สุ่มคำ
-========================================================= */
-
-function randomWord() {
-
-    const available =
-        words.filter(
-            item =>
-                !usedWords.includes(
-                    item.word
-                )
-        );
-
-    const index =
-        Math.floor(
-            Math.random() *
-            available.length
-        );
-
-    return available[index];
-
-}
-
-/* =========================================================
-   สุ่มระดับ
-========================================================= */
-
-function randomLevel() {
-
-    const index =
-        Math.floor(
-            Math.random() *
-            levels.length
-        );
-
-    return levels[index];
-
-}
-
-/* =========================================================
-   Reset Hangman
-========================================================= */
-
-function resetHangman() {
-
-    wrongCount = 0;
-
-    hangmanParts.forEach(
-        id => {
-
-            document
-                .getElementById(id)
-                .classList
-                .remove("show");
-
-        }
-    );
-
-    const stickman =
-        document.getElementById(
-            "stickman"
-        );
-
-    stickman.classList.remove(
-        "swing"
-    );
-
-}
-
-/* =========================================================
-   วาด Hangman
-========================================================= */
-
-function drawHangman() {
-
-    if (
-        wrongCount >= 10
-    ) {
-
-        return;
-
-    }
-
-    const partId =
-        hangmanParts[
-            wrongCount
         ];
 
-    const part =
-        document.getElementById(
-            partId
-        );
+        /* =========================================================
+           ระดับ
+        ========================================================= */
 
-    part.classList.add(
-        "show"
-    );
+        const levels = [
 
-    wrongCount++;
+            {
+                name: "ง่าย",
+                penalty: 10
+            },
 
-    /* ผิดครั้งที่ 10 */
+            {
+                name: "ปานกลาง",
+                penalty: 100
+            },
 
-    if (
-        wrongCount === 10
-    ) {
+            {
+                name: "ยาก",
+                penalty: 500
+            }
 
-        setTimeout(
-            () => {
+        ];
 
-                const stickman =
-                    document.getElementById(
-                        "stickman"
-                    );
+        /* =========================================================
+           ตัวแปร
+        ========================================================= */
 
-                stickman.classList.remove(
-                    "swing"
+        let currentQuestion = 0;
+
+        let currentWord = null;
+
+        let currentLevel = null;
+
+        let currentScore = 2000;
+
+        /* คะแนนรวมทั้ง 10 ข้อ */
+        let totalScore = 0;
+
+        let wrongCount = 0;
+
+        let usedWords = [];
+
+        /* จำนวนคำใบ้ */
+        let hintsRemaining = 2;
+
+        let scoreSaved = false;
+
+        /* =========================================================
+           DOM
+        ========================================================= */
+
+        const wordArea =
+            document.getElementById("wordArea");
+
+        const keyboard =
+            document.getElementById("keyboard");
+
+        const questionNumber =
+            document.getElementById("questionNumber");
+
+        const levelText =
+            document.getElementById("level");
+
+        const scoreBox =
+            document.getElementById("scoreBox");
+
+        const resultScreen =
+            document.getElementById("resultScreen");
+
+        const resultTitle =
+            document.getElementById("resultTitle");
+
+        const resultWord =
+            document.getElementById("resultWord");
+
+        const resultMeaning =
+            document.getElementById("resultMeaning");
+
+        const resultScore =
+            document.getElementById("resultScore");
+
+        const resultButton =
+            document.getElementById("resultButton");
+
+        const resultImage =
+            document.getElementById("resultImage");
+
+        const imagePlaceholder =
+            document.getElementById("imagePlaceholder");
+
+        /* DOM ของคำใบ้ */
+
+        const hintButton =
+            document.getElementById("hintButton");
+
+        const hintCount =
+            document.getElementById("hintCount");
+
+        /* =========================================================
+           ลำดับ Hangman 10 ขั้น
+        ========================================================= */
+
+        const hangmanParts = [
+
+            "part1",
+            "part2",
+            "part3",
+            "part4",
+            "part5",
+            "part6",
+            "part7",
+            "part8",
+            "part9",
+            "part10"
+
+        ];
+
+        /* =========================================================
+           สุ่มคำ
+        ========================================================= */
+
+        function randomWord() {
+
+            const available =
+                words.filter(
+                    item =>
+                        !usedWords.includes(
+                            item.word
+                        )
                 );
 
-                void stickman.offsetWidth;
-
-                stickman.classList.add(
-                    "swing"
+            const index =
+                Math.floor(
+                    Math.random() *
+                    available.length
                 );
+
+            return available[index];
+
+        }
+
+        /* =========================================================
+           สุ่มระดับ
+        ========================================================= */
+
+        function randomLevel() {
+
+            const index =
+                Math.floor(
+                    Math.random() *
+                    levels.length
+                );
+
+            return levels[index];
+
+        }
+
+        /* =========================================================
+           Reset Hangman
+        ========================================================= */
+
+        function resetHangman() {
+
+            wrongCount = 0;
+
+            hangmanParts.forEach(
+                id => {
+
+                    document
+                        .getElementById(id)
+                        .classList
+                        .remove("show");
+
+                }
+            );
+
+            const stickman =
+                document.getElementById(
+                    "stickman"
+                );
+
+            stickman.classList.remove(
+                "swing"
+            );
+
+        }
+
+        /* =========================================================
+           วาด Hangman
+        ========================================================= */
+
+        function drawHangman() {
+
+            if (
+                wrongCount >= 10
+            ) {
+
+                return;
+
+            }
+
+            const partId =
+                hangmanParts[
+                wrongCount
+                ];
+
+            const part =
+                document.getElementById(
+                    partId
+                );
+
+            part.classList.add(
+                "show"
+            );
+
+            wrongCount++;
+
+            /* ผิดครั้งที่ 10 */
+
+            if (
+                wrongCount === 10
+            ) {
 
                 setTimeout(
                     () => {
 
-                        showGameOver();
+                        const stickman =
+                            document.getElementById(
+                                "stickman"
+                            );
+
+                        stickman.classList.remove(
+                            "swing"
+                        );
+
+                        void stickman.offsetWidth;
+
+                        stickman.classList.add(
+                            "swing"
+                        );
+
+                        setTimeout(
+                            () => {
+
+                                showGameOver();
+
+                            },
+                            1000
+                        );
 
                     },
-                    1000
+                    300
                 );
 
-            },
-            300
-        );
+            }
 
-    }
+        }
 
-}
+        /* =========================================================
+           เริ่มข้อ
+        ========================================================= */
 
-/* =========================================================
-   เริ่มข้อ
-========================================================= */
+        function startQuestion() {
 
-function startQuestion() {
+            if (
+                currentQuestion >= 10
+            ) {
 
-    if (
-        currentQuestion >= 10
-    ) {
+                showFinished();
 
-        showFinished();
+                return;
 
-        return;
+            }
 
-    }
+            currentWord =
+                randomWord();
 
-    currentWord =
-        randomWord();
+            currentLevel =
+                randomLevel();
 
-    currentLevel =
-        randomLevel();
-
-    usedWords.push(
-        currentWord.word
-    );
-
-    currentScore =
-        2000;
-
-    /* รีเซ็ตคำใบ้ทุกข้อ */
-
-    hintsRemaining =
-        2;
-
-    questionNumber.textContent =
-        `ข้อ ${currentQuestion + 1} / 10`;
-
-    levelText.textContent =
-        `ระดับ: ${currentLevel.name}`;
-
-    updateScore();
-
-    resetHangman();
-
-    createWordSlots();
-
-    createKeyboard();
-
-    createVowels();
-
-    updateHintButton();
-
-}
-
-/* =========================================================
-   คะแนน
-========================================================= */
-
-function updateScore() {
-
-    scoreBox.textContent =
-        currentScore;
-
-}
-
-/* =========================================================
-   ช่องคำ
-========================================================= */
-
-function createWordSlots() {
-
-    wordArea.innerHTML =
-        "";
-
-    for (
-        let i = 0;
-        i < currentWord.word.length;
-        i++
-    ) {
-
-        const slot =
-            document.createElement(
-                "div"
+            usedWords.push(
+                currentWord.word
             );
 
-        slot.className =
-            "letter-slot";
+            currentScore =
+                2000;
 
-        slot.dataset.index =
-            i;
+            /* รีเซ็ตคำใบ้ทุกข้อ */
 
-        wordArea.appendChild(
-            slot
-        );
+            hintsRemaining =
+                2;
 
-    }
+            questionNumber.textContent =
+                `ข้อ ${currentQuestion + 1} / 10`;
 
-}
+            levelText.textContent =
+                `ระดับ: ${currentLevel.name}`;
 
-/* =========================================================
-   Keyboard
-========================================================= */
+            updateScore();
 
-function createKeyboard() {
+            resetHangman();
 
-    keyboard.innerHTML =
-        "";
+            createWordSlots();
 
-    const alphabet = [
+            createKeyboard();
 
-        "B", "C", "D",
-        "F", "G", "H",
-        "J", "K", "L",
-        "M", "N", "P",
-        "Q", "R", "S",
-        "T", "V", "W",
-        "X", "Y", "Z"
+            createVowels();
 
-    ];
+            updateHintButton();
 
-    alphabet.forEach(
-        letter => {
+        }
 
-            const button =
-                document.createElement(
-                    "button"
+        /* =========================================================
+           คะแนน
+        ========================================================= */
+
+        function updateScore() {
+
+            scoreBox.textContent =
+                currentScore;
+
+        }
+
+        /* =========================================================
+           ช่องคำ
+        ========================================================= */
+
+        function createWordSlots() {
+
+            wordArea.innerHTML =
+                "";
+
+            for (
+                let i = 0;
+                i < currentWord.word.length;
+                i++
+            ) {
+
+                const slot =
+                    document.createElement(
+                        "div"
+                    );
+
+                slot.className =
+                    "letter-slot";
+
+                slot.dataset.index =
+                    i;
+
+                wordArea.appendChild(
+                    slot
                 );
 
-            button.className =
-                "key";
+            }
 
-            button.textContent =
-                letter;
+        }
 
-            button.onclick =
-                () => {
+        /* =========================================================
+           Keyboard
+        ========================================================= */
 
-                    guessConsonant(
-                        letter,
+        function createKeyboard() {
+
+            keyboard.innerHTML =
+                "";
+
+            const alphabet = [
+
+                "B", "C", "D",
+                "F", "G", "H",
+                "J", "K", "L",
+                "M", "N", "P",
+                "Q", "R", "S",
+                "T", "V", "W",
+                "X", "Y", "Z"
+
+            ];
+
+            alphabet.forEach(
+                letter => {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+                    button.className =
+                        "key";
+
+                    button.textContent =
+                        letter;
+
+                    button.onclick =
+                        () => {
+
+                            guessConsonant(
+                                letter,
+                                button
+                            );
+
+                        };
+
+                    keyboard.appendChild(
                         button
                     );
 
-                };
-
-            keyboard.appendChild(
-                button
+                }
             );
 
         }
-    );
 
-}
+        /* =========================================================
+           สระ
+        ========================================================= */
 
-/* =========================================================
-   สระ
-========================================================= */
+        function createVowels() {
 
-function createVowels() {
+            document
+                .querySelectorAll(".vowel")
+                .forEach(
+                    button => {
 
-    document
-        .querySelectorAll(".vowel")
-        .forEach(
-            button => {
+                        button.disabled =
+                            false;
 
-                button.disabled =
-                    false;
+                        button.onclick =
+                            () => {
 
-                button.onclick =
-                    () => {
+                                guessVowel(
+                                    button.textContent,
+                                    button
+                                );
 
-                        guessVowel(
-                            button.textContent,
-                            button
-                        );
+                            };
 
-                    };
-
-            }
-        );
-
-}
-
-/* =========================================================
-   ทายสระ
-========================================================= */
-
-function guessVowel(
-    letter,
-    button
-) {
-
-    if (
-        button.disabled
-    ) {
-
-        return;
-
-    }
-
-    button.disabled =
-        true;
-
-    if (
-        currentWord.word.includes(
-            letter
-        )
-    ) {
-
-        revealLetter(
-            letter
-        );
-
-        checkComplete();
-
-    }
-
-}
-
-/* =========================================================
-   ทายพยัญชนะ
-========================================================= */
-
-function guessConsonant(
-    letter,
-    button
-) {
-
-    if (
-        button.disabled
-    ) {
-
-        return;
-
-    }
-
-    button.disabled =
-        true;
-
-    /* ถูก */
-
-    if (
-        currentWord.word.includes(
-            letter
-        )
-    ) {
-
-        revealLetter(
-            letter
-        );
-
-        checkComplete();
-
-        return;
-
-    }
-
-    /* ผิด */
-
-    currentScore -=
-        currentLevel.penalty;
-
-    if (
-        currentScore < 0
-    ) {
-
-        currentScore =
-            0;
-
-    }
-
-    updateScore();
-
-    drawHangman();
-
-}
-
-/* =========================================================
-   เปิดตัวอักษร
-========================================================= */
-
-function revealLetter(
-    letter
-) {
-
-    const word =
-        currentWord.word;
-
-    for (
-        let i = 0;
-        i < word.length;
-        i++
-    ) {
-
-        if (
-            word[i] === letter
-        ) {
-
-            const slot =
-                document.querySelector(
-                    `.letter-slot[data-index="${i}"]`
+                    }
                 );
 
-            if (slot) {
-
-                slot.textContent =
-                    letter;
-
-            }
-
         }
 
-    }
+        /* =========================================================
+           ทายสระ
+        ========================================================= */
 
-}
-
-/* =========================================================
-   ตรวจคำครบ
-========================================================= */
-
-function checkComplete() {
-
-    const slots =
-        document.querySelectorAll(
-            ".letter-slot"
-        );
-
-    let complete =
-        true;
-
-    slots.forEach(
-        slot => {
+        function guessVowel(
+            letter,
+            button
+        ) {
 
             if (
-                slot.textContent === ""
+                button.disabled
             ) {
 
-                complete =
-                    false;
+                return;
+
+            }
+
+            button.disabled =
+                true;
+
+            if (
+                currentWord.word.includes(
+                    letter
+                )
+            ) {
+
+                revealLetter(
+                    letter
+                );
+
+                checkComplete();
 
             }
 
         }
-    );
 
-    if (
-        complete
-    ) {
+        /* =========================================================
+           ทายพยัญชนะ
+        ========================================================= */
 
-        disableAllButtons();
-
-        setTimeout(
-            () => {
-
-                showCorrect();
-
-            },
-            400
-        );
-
-    }
-
-}
-
-/* =========================================================
-   ปิดปุ่ม
-========================================================= */
-
-function disableAllButtons() {
-
-    document
-        .querySelectorAll(
-            ".key, .vowel"
-        )
-        .forEach(
-            button => {
-
-                button.disabled =
-                    true;
-
-            }
-        );
-
-    hintButton.disabled =
-        true;
-
-}
-
-/* =========================================================
-   ระบบคำใบ้ ⭐
-========================================================= */
-
-function updateHintButton() {
-
-    hintCount.textContent =
-        `${hintsRemaining}/2`;
-
-    hintButton.disabled =
-        hintsRemaining <= 0 ||
-        resultScreen.style.display === "flex";
-
-}
-
-/* =========================================================
-   ใช้คำใบ้
-========================================================= */
-
-function useHint() {
-
-    if (
-        hintsRemaining <= 0 ||
-        !currentWord
-    ) {
-
-        return;
-
-    }
-
-    const hiddenIndexes =
-        [...document.querySelectorAll(
-            ".letter-slot"
-        )]
-        .map(
-            (slot, index) =>
-                slot.textContent === ""
-                    ? index
-                    : -1
-        )
-        .filter(
-            index => index !== -1
-        );
-
-    if (
-        hiddenIndexes.length === 0
-    ) {
-
-        return;
-
-    }
-
-    const randomIndex =
-        hiddenIndexes[
-            Math.floor(
-                Math.random() *
-                hiddenIndexes.length
-            )
-        ];
-
-    const letter =
-        currentWord.word[randomIndex];
-
-    revealLetter(
-        letter
-    );
-
-    /* ล็อกปุ่มตัวอักษรที่คำใบ้เปิดให้ */
-
-    const buttons =
-        document.querySelectorAll(
-            ".key, .vowel"
-        );
-
-    buttons.forEach(
-        button => {
+        function guessConsonant(
+            letter,
+            button
+        ) {
 
             if (
-                button.textContent.trim() ===
+                button.disabled
+            ) {
+
+                return;
+
+            }
+
+            button.disabled =
+                true;
+
+            /* ถูก */
+
+            if (
+                currentWord.word.includes(
+                    letter
+                )
+            ) {
+
+                revealLetter(
+                    letter
+                );
+
+                checkComplete();
+
+                return;
+
+            }
+
+            /* ผิด */
+
+            currentScore -= currentLevel.penalty;
+
+            updateScore();
+            drawHangman();
+
+        }
+
+        /* =========================================================
+           เปิดตัวอักษร
+        ========================================================= */
+
+        function revealLetter(
+            letter
+        ) {
+
+            const word =
+                currentWord.word;
+
+            for (
+                let i = 0;
+                i < word.length;
+                i++
+            ) {
+
+                if (
+                    word[i] === letter
+                ) {
+
+                    const slot =
+                        document.querySelector(
+                            `.letter-slot[data-index="${i}"]`
+                        );
+
+                    if (slot) {
+
+                        slot.textContent =
+                            letter;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        /* =========================================================
+           ตรวจคำครบ
+        ========================================================= */
+
+        function checkComplete() {
+
+            const slots =
+                document.querySelectorAll(
+                    ".letter-slot"
+                );
+
+            let complete =
+                true;
+
+            slots.forEach(
+                slot => {
+
+                    if (
+                        slot.textContent === ""
+                    ) {
+
+                        complete =
+                            false;
+
+                    }
+
+                }
+            );
+
+            if (
+                complete
+            ) {
+
+                disableAllButtons();
+
+                setTimeout(
+                    () => {
+
+                        showCorrect();
+
+                    },
+                    400
+                );
+
+            }
+
+        }
+
+        /* =========================================================
+           ปิดปุ่ม
+        ========================================================= */
+
+        function disableAllButtons() {
+
+            document
+                .querySelectorAll(
+                    ".key, .vowel"
+                )
+                .forEach(
+                    button => {
+
+                        button.disabled =
+                            true;
+
+                    }
+                );
+
+            hintButton.disabled =
+                true;
+
+        }
+
+        /* =========================================================
+           ระบบคำใบ้ ⭐
+        ========================================================= */
+
+        function updateHintButton() {
+
+            hintCount.textContent =
+                `${hintsRemaining}/2`;
+
+            hintButton.disabled =
+                hintsRemaining <= 0 ||
+                resultScreen.style.display === "flex";
+
+        }
+
+        /* =========================================================
+           ใช้คำใบ้
+        ========================================================= */
+
+        function useHint() {
+
+            if (
+                hintsRemaining <= 0 ||
+                !currentWord
+            ) {
+
+                return;
+
+            }
+
+            const hiddenIndexes =
+                [...document.querySelectorAll(
+                    ".letter-slot"
+                )]
+                    .map(
+                        (slot, index) =>
+                            slot.textContent === ""
+                                ? index
+                                : -1
+                    )
+                    .filter(
+                        index => index !== -1
+                    );
+
+            if (
+                hiddenIndexes.length === 0
+            ) {
+
+                return;
+
+            }
+
+            const randomIndex =
+                hiddenIndexes[
+                Math.floor(
+                    Math.random() *
+                    hiddenIndexes.length
+                )
+                ];
+
+            const letter =
+                currentWord.word[randomIndex];
+
+            revealLetter(
                 letter
+            );
+
+            /* ล็อกปุ่มตัวอักษรที่คำใบ้เปิดให้ */
+
+            const buttons =
+                document.querySelectorAll(
+                    ".key, .vowel"
+                );
+
+            buttons.forEach(
+                button => {
+
+                    if (
+                        button.textContent.trim() ===
+                        letter
+                    ) {
+
+                        button.disabled =
+                            true;
+
+                    }
+
+                }
+            );
+
+            hintsRemaining--;
+
+            updateHintButton();
+
+            checkComplete();
+
+        }
+
+        /* ปุ่มคำใบ้ */
+
+        hintButton.onclick =
+            useHint;
+
+        /* =========================================================
+           ตอบถูก
+        ========================================================= */
+
+        function showCorrect() {
+
+            /* เพิ่มคะแนนข้อนี้เข้าไปในคะแนนรวม */
+
+            totalScore +=
+                currentScore;
+
+            resultScreen.style.display =
+                "flex";
+
+            hintButton.disabled =
+                true;
+
+            resultTitle.textContent =
+                "ถูกต้อง!";
+
+            resultTitle.classList.add(
+                "correct"
+            );
+
+            resultWord.textContent =
+                `คำศัพท์: ${currentWord.word}`;
+
+            resultMeaning.textContent =
+                `ความหมาย: ${currentWord.meaning}`;
+
+            resultScore.textContent =
+                `คะแนนข้อนี้: ${currentScore}`;
+
+            showResultImage();
+
+            resultButton.classList.remove(
+                "home"
+            );
+
+            if (
+                currentQuestion === 9
             ) {
 
-                button.disabled =
-                    true;
+                resultButton.textContent =
+                    "ดูผลคะแนน";
+
+                resultButton.onclick =
+                    showFinished;
+
+            } else {
+
+                resultButton.textContent =
+                    "ข้อต่อไป";
+
+                resultButton.onclick =
+                    nextQuestion;
 
             }
 
         }
-    );
 
-    hintsRemaining--;
+        /* =========================================================
+           GAME OVER
+        ========================================================= */
 
-    updateHintButton();
+        function showGameOver() {
 
-    checkComplete();
+            disableAllButtons();
 
-}
+            resultScreen.style.display =
+                "flex";
 
-/* ปุ่มคำใบ้ */
+            hintButton.disabled =
+                true;
 
-hintButton.onclick =
-    useHint;
+            resultTitle.textContent =
+                "GAME OVER";
 
-/* =========================================================
-   ตอบถูก
-========================================================= */
+            resultTitle.classList.remove(
+                "correct"
+            );
 
-function showCorrect() {
+            resultWord.textContent =
+                `คำศัพท์: ${currentWord.word}`;
 
-    /* เพิ่มคะแนนข้อนี้เข้าไปในคะแนนรวม */
+            resultMeaning.textContent =
+                `ความหมาย: ${currentWord.meaning}`;
 
-    totalScore +=
-        currentScore;
+            resultScore.textContent =
+                `คะแนนที่เหลือ: ${currentScore}`;
 
-    resultScreen.style.display =
-        "flex";
+            showResultImage();
 
-    hintButton.disabled =
-        true;
+            resultButton.textContent =
+                "เริ่มใหม่";
 
-    resultTitle.textContent =
-        "ถูกต้อง!";
+            resultButton.classList.add(
+                "home"
+            );
 
-    resultTitle.classList.add(
-        "correct"
-    );
+            resultButton.onclick =
+                restartGame;
 
-    resultWord.textContent =
-        `คำศัพท์: ${currentWord.word}`;
+        }
 
-    resultMeaning.textContent =
-        `ความหมาย: ${currentWord.meaning}`;
+        /* =========================================================
+           รูป
+        ========================================================= */
 
-    resultScore.textContent =
-        `คะแนนข้อนี้: ${currentScore}`;
+        function showResultImage() {
 
-    showResultImage();
+            resultImage.style.display =
+                "none";
 
-    resultButton.classList.remove(
-        "home"
-    );
+            imagePlaceholder.style.display =
+                "block";
 
-    if (
-        currentQuestion === 9
-    ) {
+            resultImage.src =
+                currentWord.image;
 
-        resultButton.textContent =
-            "ดูผลคะแนน";
+            resultImage.onload =
+                function () {
 
-        resultButton.onclick =
-            showFinished;
+                    resultImage.style.display =
+                        "block";
 
-    } else {
+                    imagePlaceholder.style.display =
+                        "none";
 
-        resultButton.textContent =
-            "ข้อต่อไป";
+                };
 
-        resultButton.onclick =
-            nextQuestion;
+            resultImage.onerror =
+                function () {
+
+                    resultImage.style.display =
+                        "none";
+
+                    imagePlaceholder.style.display =
+                        "block";
+
+                };
+
+        }
+
+        /* =========================================================
+           ข้อต่อไป
+        ========================================================= */
+
+        function nextQuestion() {
+
+            currentQuestion++;
+
+            resultScreen.style.display =
+                "none";
+
+            startQuestion();
+
+        }
+
+        /* =========================================================
+           เริ่มใหม่
+        ========================================================= */
+
+        function restartGame() {
+
+            currentQuestion =
+                0;
+
+            currentWord =
+                null;
+
+            currentLevel =
+                null;
+
+            currentScore =
+                2000;
+
+            /* รีเซ็ตคะแนนรวม */
+
+            totalScore =
+                0;
+
+            wrongCount =
+                0;
+
+            usedWords =
+                [];
+
+            hintsRemaining =
+                2;
+
+            scoreSaved = false;
+
+            resultScreen.style.display =
+                "none";
+
+            startQuestion();
+
+        }
+
+        /* =========================================================
+           บันทึกคะแนนลง Firebase Firestore
+        ========================================================= */
+
+        async function saveFinalScore() {
+
+    /* ป้องกันการบันทึกซ้ำ */
+    if (scoreSaved) {
+        return;
+    }
+
+    /* รอให้ Firebase ตรวจสอบสถานะ Login ก่อน */
+    const user = await authReady;
+
+    /* ถ้าไม่ได้ Login จะไม่บันทึก */
+    if (!user) {
+
+        console.error("ไม่พบผู้ใช้ที่กำลังเข้าสู่ระบบ");
+
+        return;
+    }
+
+    scoreSaved = true;
+
+    try {
+
+        await addDoc(
+            collection(db, "gameScores"),
+            {
+                uid: user.uid,
+
+                name:
+                    user.displayName ||
+                    "ผู้ใช้",
+
+                score:
+                    Number(totalScore),
+
+                category:
+                    "คอมพิวเตอร์และเทคโนโลยี",
+
+                subtopic:
+                    "อุปกรณ์คอมพิวเตอร์",
+
+                createdAt:
+                    serverTimestamp()
+            }
+        );
+
+        console.log(
+            "บันทึกคะแนนสำเร็จ:",
+            totalScore
+        );
+
+    } catch (error) {
+
+        console.error(
+            "ไม่สามารถบันทึกคะแนน:",
+            error
+        );
+
+        scoreSaved = false;
 
     }
 
 }
 
-/* =========================================================
-   GAME OVER
-========================================================= */
+        /* =========================================================
+           เล่นครบ 10 ข้อ
+        ========================================================= */
 
-function showGameOver() {
-
-    disableAllButtons();
-
-    resultScreen.style.display =
-        "flex";
-
-    hintButton.disabled =
-        true;
-
-    resultTitle.textContent =
-        "GAME OVER";
-
-    resultTitle.classList.remove(
-        "correct"
-    );
-
-    resultWord.textContent =
-        `คำศัพท์: ${currentWord.word}`;
-
-    resultMeaning.textContent =
-        `ความหมาย: ${currentWord.meaning}`;
-
-    resultScore.textContent =
-        `คะแนนที่เหลือ: ${currentScore}`;
-
-    showResultImage();
-
-    resultButton.textContent =
-        "เริ่มใหม่";
-
-    resultButton.classList.add(
-        "home"
-    );
-
-    resultButton.onclick =
-        restartGame;
-
-}
-
-/* =========================================================
-   รูป
-========================================================= */
-
-function showResultImage() {
-
-    resultImage.style.display =
-        "none";
-
-    imagePlaceholder.style.display =
-        "block";
-
-    resultImage.src =
-        currentWord.image;
-
-    resultImage.onload =
-        function () {
-
-            resultImage.style.display =
-                "block";
-
-            imagePlaceholder.style.display =
-                "none";
-
-        };
-
-    resultImage.onerror =
-        function () {
-
-            resultImage.style.display =
-                "none";
-
-            imagePlaceholder.style.display =
-                "block";
-
-        };
-
-}
-
-/* =========================================================
-   ข้อต่อไป
-========================================================= */
-
-function nextQuestion() {
-
-    currentQuestion++;
-
-    resultScreen.style.display =
-        "none";
-
-    startQuestion();
-
-}
-
-/* =========================================================
-   เริ่มใหม่
-========================================================= */
-
-function restartGame() {
-
-    currentQuestion =
-        0;
-
-    currentWord =
-        null;
-
-    currentLevel =
-        null;
-
-    currentScore =
-        2000;
-
-    /* รีเซ็ตคะแนนรวม */
-
-    totalScore =
-        0;
-
-    wrongCount =
-        0;
-
-    usedWords =
-        [];
-
-    hintsRemaining =
-        2;
-
-    resultScreen.style.display =
-        "none";
-
-    startQuestion();
-
-}
-
-/* =========================================================
-   เล่นครบ 10 ข้อ
-========================================================= */
-
-function showFinished() {
+        async function showFinished() {
 
     resultScreen.style.display = "flex";
 
     hintButton.disabled = true;
 
-    // ซ่อนรูปภาพเมื่อเล่นครบ 10 ข้อ
     document.querySelector(".result-image").style.display = "none";
 
     resultTitle.textContent =
@@ -1940,6 +2151,14 @@ function showFinished() {
     resultMeaning.textContent =
         `${totalScore} คะแนน`;
 
+    resultScore.textContent =
+        "กำลังบันทึกคะแนน...";
+
+    /*
+       รอการบันทึกคะแนนให้เสร็จก่อน
+    */
+    await saveFinalScore();
+
     resultScore.textContent = "";
 
     resultButton.textContent =
@@ -1949,50 +2168,55 @@ function showFinished() {
 
     resultButton.onclick = function () {
 
-        window.location.href = "index.html";
-
-    };
-}
-
-/* =========================================================
-   กลับหน้าก่อนหน้า
-========================================================= */
-
-function goHome() {
-
-    window.history.back();
-
-}
-
-/* =========================================================
-   เสียง
-========================================================= */
-
-let soundOn =
-    true;
-
-document
-    .getElementById("soundBtn")
-    .onclick =
-    function () {
-
-        soundOn =
-            !soundOn;
-
-        this.textContent =
-            soundOn
-                ? "🔊"
-                : "🔇";
+        window.location.href =
+            "index.html";
 
     };
 
-/* =========================================================
-   เริ่มเกม
-========================================================= */
+}
 
-startQuestion();
+        /* =========================================================
+           กลับหน้าก่อนหน้า
+        ========================================================= */
 
-</script>
+        function goHome() {
+
+            window.history.back();
+
+        }
+
+        window.goHome = goHome;
+
+        /* =========================================================
+           เสียง
+        ========================================================= */
+
+        let soundOn =
+            true;
+
+        document
+            .getElementById("soundBtn")
+            .onclick =
+            function () {
+
+                soundOn =
+                    !soundOn;
+
+                this.textContent =
+                    soundOn
+                        ? "🔊"
+                        : "🔇";
+
+            };
+
+        /* =========================================================
+           เริ่มเกม
+        ========================================================= */
+
+        startQuestion();
+
+    </script>
 
 </body>
+
 </html>

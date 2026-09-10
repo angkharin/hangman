@@ -17,7 +17,7 @@ import {
 const firebaseConfig = {
 
     apiKey:
-    "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
+        "AIzaSyAOEX0DjEzJVMQEXWP64JS_V1i3l60CxdQ",
 
     authDomain:
         "hangman-a1562.firebaseapp.com",
@@ -236,7 +236,7 @@ if (playGameBtn) {
 
     playGameBtn.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             event.preventDefault();
 
@@ -271,7 +271,7 @@ if (loginClose) {
 
     loginClose.addEventListener(
         "click",
-        function() {
+        function () {
 
             closeLoginModal();
 
@@ -289,7 +289,7 @@ if (loginBackdrop) {
 
     loginBackdrop.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             if (
                 event.target ===
@@ -314,7 +314,7 @@ if (toggleSignup) {
 
     toggleSignup.addEventListener(
         "click",
-        function() {
+        function () {
 
             isSignupMode =
                 !isSignupMode;
@@ -402,7 +402,7 @@ if (togglePassword) {
 
     togglePassword.addEventListener(
         "click",
-        function() {
+        function () {
 
             if (
                 authPassword.type ===
@@ -456,7 +456,7 @@ if (toggleConfirmPassword) {
 
     toggleConfirmPassword.addEventListener(
         "click",
-        function() {
+        function () {
 
             if (
                 confirmPassword.type ===
@@ -583,7 +583,7 @@ if (emailLogin) {
 
     emailLogin.addEventListener(
         "click",
-        async function() {
+        async function () {
 
             const username =
                 authName.value.trim();
@@ -783,7 +783,7 @@ if (emailLogin) {
                     // ไปหน้าเลือกหมวดหมู่
 
                     setTimeout(
-                        function() {
+                        function () {
 
                             window.location.href =
                                 "categories.html";
@@ -862,7 +862,7 @@ if (emailLogin) {
                 // ไปหน้าเลือกหมวดหมู่
 
                 setTimeout(
-                    function() {
+                    function () {
 
                         window.location.href =
                             "categories.html";
@@ -902,7 +902,7 @@ if (emailLogin) {
 
 onAuthStateChanged(
     auth,
-    function(user) {
+    function (user) {
 
         currentUser =
             user;
@@ -977,7 +977,7 @@ if (logoutBtn) {
 
     logoutBtn.addEventListener(
         "click",
-        async function() {
+        async function () {
 
             try {
 
@@ -1034,7 +1034,7 @@ if (
 
     exitBtn.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             event.preventDefault();
 
@@ -1060,7 +1060,7 @@ if (
 
     exitCancel.addEventListener(
         "click",
-        function() {
+        function () {
 
             exitBackdrop.classList.remove(
                 "is-open"
@@ -1080,7 +1080,7 @@ if (exitBackdrop) {
 
     exitBackdrop.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             if (
                 event.target ===
@@ -1107,7 +1107,7 @@ if (exitConfirm) {
 
     exitConfirm.addEventListener(
         "click",
-        async function() {
+        async function () {
 
             try {
 
@@ -1140,7 +1140,7 @@ if (exitConfirm) {
             // ให้กลับไปหน้าแรก
 
             setTimeout(
-                function() {
+                function () {
 
                     window.location.href =
                         "about:blank";
