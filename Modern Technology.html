@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-
         * {
 
             margin: 0;
@@ -1297,7 +1296,7 @@
 
         }
 
-    
+
 
         /* =========================
            กล่องแสดงความหมายใบ้คำศัพท์
@@ -1338,7 +1337,9 @@
         }
 
         @keyframes blinkCursor {
-            50% { opacity: 0; }
+            50% {
+                opacity: 0;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1367,7 +1368,6 @@
                 line-height: 1.25;
             }
         }
-
     </style>
 
 </head>
@@ -1579,21 +1579,21 @@
 
         let loggedInUser = null;
 
-let authReadyResolve;
+        let authReadyResolve;
 
-const authReady = new Promise((resolve) => {
+        const authReady = new Promise((resolve) => {
 
-    authReadyResolve = resolve;
+            authReadyResolve = resolve;
 
-});
+        });
 
-onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, (user) => {
 
-    loggedInUser = user;
+            loggedInUser = user;
 
-    authReadyResolve(user);
+            authReadyResolve(user);
 
-});
+        });
 
         /* =========================================================
            คำศัพท์ระบบปฏิบัติการ 30 คำ
@@ -1631,7 +1631,7 @@ onAuthStateChanged(auth, (user) => {
             },
             {
                 word: "IOT",
-                meaning: "อินเทอร์เน็ตของสรรพสิ่ง",
+                meaning: "Internet of Things หรืออินเทอร์เน็ตของสรรพสิ่ง",
                 clue: "แนวคิดที่ทำให้อุปกรณ์ต่าง ๆ เชื่อมต่ออินเทอร์เน็ตและแลกเปลี่ยนข้อมูลกันได้",
                 image: "image/iot.png"
             },
@@ -1775,7 +1775,7 @@ onAuthStateChanged(auth, (user) => {
             },
             {
                 word: "GPS",
-                meaning: "ระบบกำหนดตำแหน่ง",
+                meaning: "Global Positioning System หรือระบบกำหนดตำแหน่ง",
                 clue: "ระบบนำทางที่ใช้สัญญาณจากดาวเทียมเพื่อช่วยระบุตำแหน่งและคำนวณเส้นทาง",
                 image: "image/gps.png"
             }
@@ -3068,89 +3068,89 @@ onAuthStateChanged(auth, (user) => {
 
         async function saveFinalScore() {
 
-    /* ป้องกันการบันทึกซ้ำ */
+            /* ป้องกันการบันทึกซ้ำ */
 
-    if (scoreSaved) {
+            if (scoreSaved) {
 
-        return;
-
-    }
-
-    /* รอให้ Firebase ตรวจสอบสถานะ Login ก่อน */
-
-    const user = await authReady;
-
-    /* ถ้าไม่ได้ Login จะไม่บันทึก */
-
-    if (!user) {
-
-        console.error("ไม่พบผู้ใช้ที่กำลังเข้าสู่ระบบ");
-
-        return;
-
-    }
-
-    scoreSaved = true;
-
-    try {
-
-        await addDoc(
-
-            collection(db, "gameScores"),
-
-            {
-
-                uid: user.uid,
-
-                name:
-
-                    user.displayName ||
-
-                    "ผู้ใช้",
-
-                score:
-
-                    Number(totalScore),
-
-                category:
-
-                    "คอมพิวเตอร์และเทคโนโลยี",
-
-                subtopic:
-
-                    "เทคโนโลยีสมัยใหม่",
-
-                createdAt:
-
-                    serverTimestamp()
+                return;
 
             }
 
-        );
+            /* รอให้ Firebase ตรวจสอบสถานะ Login ก่อน */
 
-        console.log(
+            const user = await authReady;
 
-            "บันทึกคะแนนสำเร็จ:",
+            /* ถ้าไม่ได้ Login จะไม่บันทึก */
 
-            totalScore
+            if (!user) {
 
-        );
+                console.error("ไม่พบผู้ใช้ที่กำลังเข้าสู่ระบบ");
 
-    } catch (error) {
+                return;
 
-        console.error(
+            }
 
-            "ไม่สามารถบันทึกคะแนน:",
+            scoreSaved = true;
 
-            error
+            try {
 
-        );
+                await addDoc(
 
-        scoreSaved = false;
+                    collection(db, "gameScores"),
 
-    }
+                    {
 
-}
+                        uid: user.uid,
+
+                        name:
+
+                            user.displayName ||
+
+                            "ผู้ใช้",
+
+                        score:
+
+                            Number(totalScore),
+
+                        category:
+
+                            "คอมพิวเตอร์และเทคโนโลยี",
+
+                        subtopic:
+
+                            "เทคโนโลยีสมัยใหม่",
+
+                        createdAt:
+
+                            serverTimestamp()
+
+                    }
+
+                );
+
+                console.log(
+
+                    "บันทึกคะแนนสำเร็จ:",
+
+                    totalScore
+
+                );
+
+            } catch (error) {
+
+                console.error(
+
+                    "ไม่สามารถบันทึกคะแนน:",
+
+                    error
+
+                );
+
+                scoreSaved = false;
+
+            }
+
+        }
 
         /* =========================================================
 
@@ -3160,55 +3160,55 @@ onAuthStateChanged(auth, (user) => {
 
         async function showFinished() {
 
-    resultScreen.style.display = "flex";
+            resultScreen.style.display = "flex";
 
-    hintButton.disabled = true;
+            hintButton.disabled = true;
 
-    document.querySelector(".result-image").style.display = "none";
+            document.querySelector(".result-image").style.display = "none";
 
-    resultTitle.textContent =
+            resultTitle.textContent =
 
-        "ยินดีด้วย คุณเก่งมาก";
+                "ยินดีด้วย คุณเก่งมาก";
 
-    resultTitle.classList.add("correct");
+            resultTitle.classList.add("correct");
 
-    resultWord.textContent =
+            resultWord.textContent =
 
-        "คะแนนทั้งหมด";
+                "คะแนนทั้งหมด";
 
-    resultMeaning.textContent =
+            resultMeaning.textContent =
 
-        `${totalScore} คะแนน`;
+                `${totalScore} คะแนน`;
 
-    resultScore.textContent =
+            resultScore.textContent =
 
-        "กำลังบันทึกคะแนน...";
+                "กำลังบันทึกคะแนน...";
 
-    /*
+            /*
+        
+               รอการบันทึกคะแนนให้เสร็จก่อน
+        
+            */
 
-       รอการบันทึกคะแนนให้เสร็จก่อน
+            await saveFinalScore();
 
-    */
+            resultScore.textContent = "";
 
-    await saveFinalScore();
+            resultButton.textContent =
 
-    resultScore.textContent = "";
+                "กลับหน้าเมนูหลัก";
 
-    resultButton.textContent =
+            resultButton.classList.add("home");
 
-        "กลับหน้าเมนูหลัก";
+            resultButton.onclick = function () {
 
-    resultButton.classList.add("home");
+                window.location.href =
 
-    resultButton.onclick = function () {
+                    "index.html";
 
-        window.location.href =
+            };
 
-            "index.html";
-
-    };
-
-}
+        }
 
         /* =========================================================
 
