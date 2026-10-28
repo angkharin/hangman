@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+
         * {
 
             margin: 0;
@@ -1296,7 +1297,7 @@
 
         }
 
-
+    
 
         /* =========================
            กล่องแสดงความหมายใบ้คำศัพท์
@@ -1337,9 +1338,7 @@
         }
 
         @keyframes blinkCursor {
-            50% {
-                opacity: 0;
-            }
+            50% { opacity: 0; }
         }
 
         @media (max-width: 768px) {
@@ -1368,6 +1367,7 @@
                 line-height: 1.25;
             }
         }
+
     </style>
 
 </head>
@@ -1579,21 +1579,21 @@
 
         let loggedInUser = null;
 
-        let authReadyResolve;
+let authReadyResolve;
 
-        const authReady = new Promise((resolve) => {
+const authReady = new Promise((resolve) => {
 
-            authReadyResolve = resolve;
+    authReadyResolve = resolve;
 
-        });
+});
 
-        onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user) => {
 
-            loggedInUser = user;
+    loggedInUser = user;
 
-            authReadyResolve(user);
+    authReadyResolve(user);
 
-        });
+});
 
         /* =========================================================
            คำศัพท์ระบบปฏิบัติการ 30 คำ
@@ -3068,89 +3068,89 @@
 
         async function saveFinalScore() {
 
-            /* ป้องกันการบันทึกซ้ำ */
+    /* ป้องกันการบันทึกซ้ำ */
 
-            if (scoreSaved) {
+    if (scoreSaved) {
 
-                return;
+        return;
 
-            }
+    }
 
-            /* รอให้ Firebase ตรวจสอบสถานะ Login ก่อน */
+    /* รอให้ Firebase ตรวจสอบสถานะ Login ก่อน */
 
-            const user = await authReady;
+    const user = await authReady;
 
-            /* ถ้าไม่ได้ Login จะไม่บันทึก */
+    /* ถ้าไม่ได้ Login จะไม่บันทึก */
 
-            if (!user) {
+    if (!user) {
 
-                console.error("ไม่พบผู้ใช้ที่กำลังเข้าสู่ระบบ");
+        console.error("ไม่พบผู้ใช้ที่กำลังเข้าสู่ระบบ");
 
-                return;
+        return;
 
-            }
+    }
 
-            scoreSaved = true;
+    scoreSaved = true;
 
-            try {
+    try {
 
-                await addDoc(
+        await addDoc(
 
-                    collection(db, "gameScores"),
+            collection(db, "gameScores"),
 
-                    {
+            {
 
-                        uid: user.uid,
+                uid: user.uid,
 
-                        name:
+                name:
 
-                            user.displayName ||
+                    user.displayName ||
 
-                            "ผู้ใช้",
+                    "ผู้ใช้",
 
-                        score:
+                score:
 
-                            Number(totalScore),
+                    Number(totalScore),
 
-                        category:
+                category:
 
-                            "คอมพิวเตอร์และเทคโนโลยี",
+                    "คอมพิวเตอร์และเทคโนโลยี",
 
-                        subtopic:
+                subtopic:
 
-                            "เทคโนโลยีสมัยใหม่",
+                    "เทคโนโลยีสมัยใหม่",
 
-                        createdAt:
+                createdAt:
 
-                            serverTimestamp()
-
-                    }
-
-                );
-
-                console.log(
-
-                    "บันทึกคะแนนสำเร็จ:",
-
-                    totalScore
-
-                );
-
-            } catch (error) {
-
-                console.error(
-
-                    "ไม่สามารถบันทึกคะแนน:",
-
-                    error
-
-                );
-
-                scoreSaved = false;
+                    serverTimestamp()
 
             }
 
-        }
+        );
+
+        console.log(
+
+            "บันทึกคะแนนสำเร็จ:",
+
+            totalScore
+
+        );
+
+    } catch (error) {
+
+        console.error(
+
+            "ไม่สามารถบันทึกคะแนน:",
+
+            error
+
+        );
+
+        scoreSaved = false;
+
+    }
+
+}
 
         /* =========================================================
 
@@ -3160,55 +3160,55 @@
 
         async function showFinished() {
 
-            resultScreen.style.display = "flex";
+    resultScreen.style.display = "flex";
 
-            hintButton.disabled = true;
+    hintButton.disabled = true;
 
-            document.querySelector(".result-image").style.display = "none";
+    document.querySelector(".result-image").style.display = "none";
 
-            resultTitle.textContent =
+    resultTitle.textContent =
 
-                "ยินดีด้วย คุณเก่งมาก";
+        "ยินดีด้วย คุณเก่งมาก";
 
-            resultTitle.classList.add("correct");
+    resultTitle.classList.add("correct");
 
-            resultWord.textContent =
+    resultWord.textContent =
 
-                "คะแนนทั้งหมด";
+        "คะแนนทั้งหมด";
 
-            resultMeaning.textContent =
+    resultMeaning.textContent =
 
-                `${totalScore} คะแนน`;
+        `${totalScore} คะแนน`;
 
-            resultScore.textContent =
+    resultScore.textContent =
 
-                "กำลังบันทึกคะแนน...";
+        "กำลังบันทึกคะแนน...";
 
-            /*
-        
-               รอการบันทึกคะแนนให้เสร็จก่อน
-        
-            */
+    /*
 
-            await saveFinalScore();
+       รอการบันทึกคะแนนให้เสร็จก่อน
 
-            resultScore.textContent = "";
+    */
 
-            resultButton.textContent =
+    await saveFinalScore();
 
-                "กลับหน้าเมนูหลัก";
+    resultScore.textContent = "";
 
-            resultButton.classList.add("home");
+    resultButton.textContent =
 
-            resultButton.onclick = function () {
+        "กลับหน้าเมนูหลัก";
 
-                window.location.href =
+    resultButton.classList.add("home");
 
-                    "index.html";
+    resultButton.onclick = function () {
 
-            };
+        window.location.href =
 
-        }
+            "index.html";
+
+    };
+
+}
 
         /* =========================================================
 
