@@ -12,12 +12,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@200;300;400;500;600;700&display=swap"
     rel="stylesheet">
 
- <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="bg-base.css">
+  <link rel="stylesheet" href="creator.css">
 </head>
 
 <body>
 
   <div class="stage">
+
+    <!-- BACKGROUND (สร้างด้วยโค้ด แทน main.png) -->
+    <div class="bg" aria-hidden="true">
+      <div class="bg-glow"></div>
+      <div class="bg-grid"></div>
+      <canvas class="bg-canvas" id="bgCanvas"></canvas>
+
+      <!-- ตะแลงแกง + ตัวคนไม้ขีด (จางลง อยู่ด้านหลังการ์ด) -->
+      <svg class="gallows" viewBox="0 0 260 300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <g class="g-frame">
+              <path d="M20 280H200M60 280V30H170M60 85L115 30" />
+          </g>
+          <g class="figure">
+              <path d="M170 30V70" />
+              <circle class="p p1" cx="170" cy="88" r="18" pathLength="1" />
+              <path class="p p2" d="M170 106V180" pathLength="1" />
+              <path class="p p3" d="M170 125L140 160" pathLength="1" />
+              <path class="p p4" d="M170 125L200 160" pathLength="1" />
+              <path class="p p5" d="M170 180L145 235" pathLength="1" />
+              <path class="p p6" d="M170 180L195 235" pathLength="1" />
+          </g>
+      </svg>
+    </div>
 
     <h1 class="page-title">ประวัติผู้สร้างเกม</h1>
 
@@ -173,6 +197,8 @@
     </a>
 
   </div>
+
+  <script src="bg.js"></script>
 
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,177 +10,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --menu-color: #ffffff;
-      --menu-hover: #57c2ff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      background: #000;
-      font-family: "Niramit", sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-    }
-
-    /* พื้นหลังแบบเดียวกับหน้า index.html */
-    .stage {
-      position: relative;
-      width: min(100%, calc((100vh - 24px) * 1376 / 768));
-      max-width: 1100px;
-      aspect-ratio: 1376 / 768;
-      background-image: url("image/main.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 4px;
-      overflow: hidden;
-      flex: 0 0 auto;
-    }
-
-    /* ชื่อหมวด */
-    .page-title {
-      position: absolute;
-      top: 18%;
-      left: 64%;
-      transform: translate(-50%, -50%);
-      color: #ffffff;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      text-align: center;
-      white-space: nowrap;
-      font-size: clamp(16px, 2.3vw, 26px);
-      line-height: 1.4;
-      text-shadow: 2px 2px 4px #000;
-      z-index: 1;
-    }
-
-    nav.menu {
-      position: absolute;
-      inset: 0;
-    }
-
-    .menu a {
-      position: absolute;
-      left: 64%;
-      margin: 0;
-      transform: translate(-50%, -50%);
-      font-family: "Niramit", sans-serif;
-      font-weight: 500;
-      color: var(--menu-color);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-      text-align: center;
-      font-size: clamp(12px, 1.8vw, 21px);
-      line-height: 1.4;
-      padding: 3px 8px;
-      border-radius: 5px;
-      text-shadow: 2px 2px 4px #000;
-      transition: color 0.15s ease, background 0.15s ease;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 1;
-    }
-
-    .menu a:hover,
-    .menu a:focus-visible {
-      color: var(--menu-hover);
-      background: rgba(0, 0, 0, 0.45);
-    }
-
-    .menu a:focus-visible {
-      outline: 1px solid var(--menu-hover);
-      outline-offset: 3px;
-    }
-
-    /* จัดหัวข้อย่อยให้เรียงแนวเดียวกัน */
-    .item-1 { top: 26%; }
-    .item-2 { top: 33%; }
-    .item-3 { top: 40%; }
-    .item-4 { top: 47%; }
-    .item-5 { top: 54%; }
-    .item-6 { top: 61%; }
-
-    /* TABLET */
-    @media (max-width: 768px) {
-      body {
-        padding: 8px;
-      }
-
-      .stage {
-        width: min(100%, calc((100vh - 16px) * 1376 / 768));
-        max-width: 100%;
-      }
-
-      .page-title {
-        font-size: clamp(15px, 2.8vw, 22px);
-      }
-
-      .menu a {
-        font-size: clamp(12px, 2.3vw, 18px);
-      }
-    }
-
-    /* PHONE */
-    @media (max-width: 480px) {
-      body {
-        padding: 5px;
-      }
-
-      .stage {
-        width: 100%;
-        max-width: 100%;
-        aspect-ratio: 1376 / 768;
-      }
-
-      .page-title {
-        left: 63%;
-        font-size: clamp(12px, 3.5vw, 17px);
-      }
-
-      .menu a {
-        left: 63%;
-        font-size: clamp(10px, 3vw, 15px);
-        padding: 2px 5px;
-      }
-    }
-
-    /* SMALL PHONE */
-    @media (max-width: 360px) {
-      body {
-        padding: 2px;
-      }
-
-      .page-title {
-        font-size: 13px;
-      }
-
-      .menu a {
-        font-size: 10px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="bg-base.css">
+  <link rel="stylesheet" href="subcategory.css">
 </head>
+
 <body>
+
   <div class="stage">
+
+    <!-- BACKGROUND (เหมือน index.html) -->
+    <div class="bg" aria-hidden="true">
+      <div class="bg-glow"></div>
+      <div class="bg-grid"></div>
+      <canvas class="bg-canvas" id="bgCanvas"></canvas>
+
+      <!-- ช่องคำศัพท์ -->
+      <div class="bg-word">
+        <span><b style="--d:0s">H</b></span>
+        <span><b style="--d:1.2s">A</b></span>
+        <span><b style="--d:2.4s">N</b></span>
+        <span><b style="--d:3.6s">G</b></span>
+        <span><b style="--d:4.8s">M</b></span>
+        <span><b style="--d:4.8s">A</b></span>
+        <span><b style="--d:4.8s">N</b></span>
+      </div>
+
+      <!-- ตะแลงแกง + ตัวคนไม้ขีด -->
+      <svg class="gallows" viewBox="0 0 260 300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <g class="g-frame">
+          <path d="M20 280H200M60 280V30H170M60 85L115 30" />
+        </g>
+        <g class="figure">
+          <path d="M170 30V70" />
+          <circle class="p p1" cx="170" cy="88" r="18" pathLength="1" />
+          <path class="p p2" d="M170 106V180" pathLength="1" />
+          <path class="p p3" d="M170 125L140 160" pathLength="1" />
+          <path class="p p4" d="M170 125L200 160" pathLength="1" />
+          <path class="p p5" d="M170 180L145 235" pathLength="1" />
+          <path class="p p6" d="M170 180L195 235" pathLength="1" />
+        </g>
+      </svg>
+
+      <!-- กรอบเมนู -->
+      <div class="bg-card"></div>
+    </div>
+
     <div class="page-title">หมวดการเขียนโปรแกรมและฐานข้อมูล</div>
 
     <nav class="menu" aria-label="เมนูหัวข้อ">
@@ -191,5 +66,9 @@
       <a href="categories.html" class="item-6">กลับหน้าหมวดหมู่</a>
     </nav>
   </div>
+
+  <script src="bg.js"></script>
+
 </body>
+
 </html>

@@ -1,0 +1,60 @@
+<!-- BACKGROUND: วางไว้ใน <div class="stage"> เป็นบรรทัดแรก (ก่อน USER ACCOUNT) -->
+
+<div class="bg" aria-hidden="true">
+
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <!-- ตัวอักษรลอย -->
+    <div class="bg-letters">
+        <span style="--x:4%;  --d:0s;   --t:15s; --s:1">A</span>
+        <span style="--x:12%; --d:2s;   --t:13s; --s:.8">?</span>
+        <span style="--x:20%; --d:5s;   --t:16s; --s:1.2">E</span>
+        <span style="--x:30%; --d:1s;   --t:14s; --s:.9">R</span>
+        <span style="--x:40%; --d:7s;   --t:17s; --s:1.1">_</span>
+        <span style="--x:48%; --d:3s;   --t:15s; --s:.8">S</span>
+        <span style="--x:55%; --d:9s;   --t:13s; --s:1">T</span>
+        <span style="--x:63%; --d:4s;   --t:16s; --s:1.2">O</span>
+        <span style="--x:70%; --d:10s;  --t:14s; --s:.8">N</span>
+        <span style="--x:78%; --d:6s;   --t:17s; --s:1">I</span>
+        <span style="--x:85%; --d:8s;   --t:15s; --s:1.1">L</span>
+        <span style="--x:92%; --d:11s;  --t:13s; --s:.9">?</span>
+        <span style="--x:35%; --d:12s;  --t:16s; --s:1">H</span>
+        <span style="--x:8%;  --d:13s;  --t:14s; --s:1.1">D</span>
+    </div>
+
+    <!-- หัวเกม -->
+    <div class="bg-title">
+        HANGMAN
+        <small>ทายคำศัพท์ให้ได้ก่อนจะสาย</small>
+    </div>
+
+    <!-- ตะแลงแกง + ตัวคนไม้ขีด -->
+    <svg class="gallows" viewBox="0 0 260 300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <g class="g-frame">
+            <path d="M20 280H200M60 280V30H170M60 85L115 30" />
+        </g>
+        <g class="figure">
+            <path d="M170 30V70" />
+            <circle class="p p1" cx="170" cy="88" r="18" pathLength="1" />
+            <path class="p p2" d="M170 106V180" pathLength="1" />
+            <path class="p p3" d="M170 125L140 160" pathLength="1" />
+            <path class="p p4" d="M170 125L200 160" pathLength="1" />
+            <path class="p p5" d="M170 180L145 235" pathLength="1" />
+            <path class="p p6" d="M170 180L195 235" pathLength="1" />
+        </g>
+    </svg>
+
+    <!-- ช่องคำศัพท์ (เปลี่ยนตัวอักษรได้) -->
+    <div class="bg-word">
+        <span><b style="--d:0s">L</b></span>
+        <span><b style="--d:1.2s">E</b></span>
+        <span><b style="--d:2.4s">A</b></span>
+        <span><b style="--d:3.6s">R</b></span>
+        <span><b style="--d:4.8s">N</b></span>
+    </div>
+
+    <!-- กรอบเมนู -->
+    <div class="bg-panel"></div>
+
+</div>

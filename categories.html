@@ -10,12 +10,51 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="bg-base.css">
+  <link rel="stylesheet" href="categories.css">
 </head>
 
 <body>
 
   <div class="stage">
+
+    <!-- BACKGROUND (สร้างด้วยโค้ด แทน main.png) -->
+    <div class="bg" aria-hidden="true">
+      <div class="bg-glow"></div>
+      <div class="bg-grid"></div>
+      <canvas class="bg-canvas" id="bgCanvas"></canvas>
+
+      <!-- หัวเกม -->
+
+      <!-- ตะแลงแกง + ตัวคนไม้ขีด -->
+      <svg class="gallows" viewBox="0 0 260 300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <g class="g-frame">
+              <path d="M20 280H200M60 280V30H170M60 85L115 30" />
+          </g>
+          <g class="figure">
+              <path d="M170 30V70" />
+              <circle class="p p1" cx="170" cy="88" r="18" pathLength="1" />
+              <path class="p p2" d="M170 106V180" pathLength="1" />
+              <path class="p p3" d="M170 125L140 160" pathLength="1" />
+              <path class="p p4" d="M170 125L200 160" pathLength="1" />
+              <path class="p p5" d="M170 180L145 235" pathLength="1" />
+              <path class="p p6" d="M170 180L195 235" pathLength="1" />
+          </g>
+      </svg>
+
+      <!-- ช่องคำศัพท์ -->
+      <div class="bg-word">
+        <span><b style="--d:0s">H</b></span>
+        <span><b style="--d:1.2s">A</b></span>
+        <span><b style="--d:2.4s">N</b></span>
+        <span><b style="--d:3.6s">G</b></span>
+        <span><b style="--d:4.8s">M</b></span>
+        <span><b style="--d:4.8s">A</b></span>
+        <span><b style="--d:4.8s">N</b></span>
+      </div>
+      <div class="bg-card"></div>
+    </div>
+
     <div class="page-title">เลือกหมวดหมู่</div>
 
     <nav class="menu" aria-label="เมนูหมวดหมู่">
@@ -26,6 +65,8 @@
       <a href="index.html" class="item-5">กลับหน้าเมนูหลัก</a>
     </nav>
   </div>
+
+  <script src="bg.js"></script>
 
 </body>
 

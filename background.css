@@ -1,0 +1,309 @@
+/* ================================
+   BACKGROUND: พื้นหลัง Hangman สร้างด้วยโค้ด (แทน main.png)
+   ใช้คู่กับ style.css และโค้ดใน background.html
+================================ */
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(135deg, #050a14 0%, #0a1628 55%, #0d1f3a 100%);
+}
+
+/* แสงลอยเคลื่อนช้า ๆ */
+.bg-glow {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 25% 60%, rgba(87, 194, 255, 0.28), transparent 40%),
+    radial-gradient(circle at 80% 25%, rgba(120, 90, 255, 0.2), transparent 38%),
+    radial-gradient(circle at 60% 85%, rgba(87, 194, 255, 0.15), transparent 35%);
+  animation: glow-drift 10s ease-in-out infinite alternate;
+}
+
+@keyframes glow-drift {
+  from { transform: translate(-9%, -6%) scale(1) rotate(0deg); }
+  to   { transform: translate(9%, 6%) scale(1.15) rotate(6deg); }
+}
+
+/* ตารางไหลเฉียง */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(87, 194, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(87, 194, 255, 0.09) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  animation: grid-move 8s linear infinite;
+}
+
+@keyframes grid-move {
+  to { background-position: 48px 48px, 48px 48px; }
+}
+
+/* canvas: ตัวอักษรลอย + จุดแสงเชื่อมเส้น (วาดโดย bg.js) */
+.bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ตัวอักษรลอยขึ้น (แบบ CSS เดิม ไม่ได้ใช้แล้ว) */
+.bg-letters span {
+  position: absolute;
+  left: var(--x, 10%);
+  bottom: -12%;
+  font-weight: 600;
+  font-size: calc(clamp(16px, 3vw, 38px) * var(--s, 1));
+  color: #57c2ff;
+  opacity: 0;
+  text-shadow: 0 0 10px rgba(87, 194, 255, 0.6);
+  animation: float-up var(--t, 14s) linear var(--d, 0s) infinite;
+}
+
+@keyframes float-up {
+  0%   { bottom: -12%;  opacity: 0;    transform: rotate(-10deg); }
+  12%  { opacity: 0.28; }
+  88%  { opacity: 0.2; }
+  100% { bottom: 108%;  opacity: 0;    transform: rotate(12deg); }
+}
+
+/* หัวเกม */
+.bg-title {
+  position: absolute;
+  left: 6%;
+  top: 7%;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  font-size: clamp(26px, 6vw, 66px);
+  text-shadow: 0 0 18px rgba(87, 194, 255, 0.65);
+  animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+.bg-title small {
+  display: block;
+  margin-top: 0.5em;
+  font-size: clamp(10px, 1.6vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #b8c5d1;
+  text-shadow: none;
+}
+
+@keyframes title-glow {
+  from { text-shadow: 0 0 10px rgba(87, 194, 255, 0.4); }
+  to   { text-shadow: 0 0 26px rgba(87, 194, 255, 0.9); }
+}
+
+/* ตะแลงแกง + ตัวคนไม้ขีด */
+.gallows {
+  position: absolute;
+  left: 9%;
+  top: 30%;
+  width: 27%;
+  height: auto;
+  overflow: visible;
+}
+
+.g-frame {
+  stroke: #57c2ff;
+  stroke-width: 6;
+  filter: drop-shadow(0 0 6px rgba(87, 194, 255, 0.7));
+}
+
+.figure {
+  stroke: #ffffff;
+  stroke-width: 5;
+  transform-box: view-box;
+  transform-origin: 170px 30px;
+  animation: sway 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(87, 194, 255, 0.8));
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+
+.figure .p {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.figure .p1 { fill: rgba(87, 194, 255, 0.12); animation: part1 14s ease infinite; }
+.figure .p2 { animation: part2 14s ease infinite; }
+.figure .p3 { animation: part3 14s ease infinite; }
+.figure .p4 { animation: part4 14s ease infinite; }
+.figure .p5 { animation: part5 14s ease infinite; }
+.figure .p6 { animation: part6 14s ease infinite; }
+
+@keyframes part1 {
+  0%, 10%   { stroke-dashoffset: 1; opacity: 0; }
+  11%       { opacity: 1; }
+  16%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes part2 {
+  0%, 22%   { stroke-dashoffset: 1; opacity: 0; }
+  23%       { opacity: 1; }
+  28%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes part3 {
+  0%, 34%   { stroke-dashoffset: 1; opacity: 0; }
+  35%       { opacity: 1; }
+  40%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes part4 {
+  0%, 44%   { stroke-dashoffset: 1; opacity: 0; }
+  45%       { opacity: 1; }
+  50%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes part5 {
+  0%, 54%   { stroke-dashoffset: 1; opacity: 0; }
+  55%       { opacity: 1; }
+  60%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes part6 {
+  0%, 64%   { stroke-dashoffset: 1; opacity: 0; }
+  65%       { opacity: 1; }
+  70%, 92%  { stroke-dashoffset: 0; opacity: 1; }
+  97%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+
+/* ช่องคำศัพท์ */
+.bg-word {
+  position: absolute;
+  left: 6%;
+  top: 20%;
+  display: flex;
+  gap: clamp(6px, 1.2vw, 14px);
+}
+
+.bg-word > span {
+  display: block;
+  width: clamp(18px, 3.4vw, 40px);
+  border-bottom: 3px solid #57c2ff;
+  text-align: center;
+  box-shadow: 0 6px 12px -8px rgba(87, 194, 255, 0.8);
+}
+
+.bg-word b {
+  display: block;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: clamp(16px, 3vw, 36px);
+  line-height: 1.3;
+  text-shadow: 0 0 10px rgba(87, 194, 255, 0.8);
+  animation: reveal 14s ease var(--d, 0s) infinite;
+}
+
+@keyframes reveal {
+  0%, 8%    { opacity: 0; transform: translateY(8px) scale(0.8); }
+  14%       { opacity: 1; transform: none; }
+  88%       { opacity: 1; transform: none; }
+  95%, 100% { opacity: 0; transform: translateY(8px) scale(0.8); }
+}
+
+/* กรอบเมนูด้านขวา */
+.bg-panel {
+  position: absolute;
+  left: 58%;
+  top: 24%;
+  width: 32%;
+  height: 54%;
+  background: rgba(13, 20, 32, 0.55);
+  border: 1px solid rgba(87, 194, 255, 0.35);
+  animation: panel-pulse 4s ease-in-out infinite alternate;
+}
+
+.bg-panel::before,
+.bg-panel::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #57c2ff;
+}
+
+.bg-panel::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.bg-panel::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+@keyframes panel-pulse {
+  from { box-shadow: 0 0 8px rgba(87, 194, 255, 0.08); }
+  to   { box-shadow: 0 0 22px rgba(87, 194, 255, 0.25); }
+}
+
+/* ================================
+   เมนู: จัดเรียงเป็นแนวตรงในกรอบ
+   (ทับตำแหน่งเดิมใน style.css ที่ออกแบบไว้ให้พอดีกับ main.png)
+================================ */
+nav.menu {
+  z-index: 2;
+}
+
+.menu a.item-2,
+.menu a.item-3,
+.menu a.item-4,
+.menu a.item-5,
+.menu a.item-6 {
+  left: 74%;
+  margin: 0;
+}
+
+.menu a.item-2 { top: 36%; }
+.menu a.item-3 { top: 44%; }
+.menu a.item-4 { top: 52%; }
+.menu a.item-5 { top: 60%; }
+.menu a.item-6 { top: 68%; }
+
+.menu a:hover,
+.menu a:focus-visible {
+  text-shadow:
+    0 0 8px rgba(87, 194, 255, 0.9),
+    0 0 18px rgba(87, 194, 255, 0.5);
+}
+
+/* ผู้ใช้ที่ตั้งค่าลดการเคลื่อนไหว: ฉากนิ่ง แสดงตัวคนไม้ขีดครบ */
+@media (prefers-reduced-motion: reduce) {
+  .bg-glow,
+  .bg-grid,
+  .bg-title,
+  .bg-panel,
+  .figure,
+  .figure .p,
+  .bg-word b {
+    animation: none;
+  }
+
+  .figure .p {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .bg-letters {
+    display: none;
+  }
+}

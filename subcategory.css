@@ -1,0 +1,150 @@
+/* ================================
+   subcategory.css : หน้าหัวข้อย่อยของแต่ละหมวด
+   ใช้กับ computer.html, network.html, business.html, programming.html
+   ใช้คู่กับ bg-base.css และ bg.js (พื้นหลังเดียวกับ index.html)
+================================ */
+
+:root {
+  --menu-color: #ffffff;
+  --menu-hover: #57c2ff;
+  --menu-x: 72%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Niramit", sans-serif;
+}
+
+/* เต็มจอเหมือน index.html */
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: #060b14;
+  overflow: hidden;
+}
+
+/* กรอบเมนูอยู่ขวา ตะแลงแกงอยู่ซ้าย */
+.bg-card {
+  left: 52%;
+  top: 22%;
+  width: 40%;
+  height: 60%;
+}
+
+/* ชื่อหมวด */
+.page-title {
+  position: absolute;
+  z-index: 2;
+  top: 30%;
+  left: var(--menu-x);
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-align: center;
+  white-space: nowrap;
+  font-size: clamp(15px, 2.1vw, 26px);
+  line-height: 1.4;
+  text-shadow: 0 0 18px rgba(87, 194, 255, 0.65);
+  animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+nav.menu {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.menu a {
+  position: absolute;
+  left: var(--menu-x);
+  transform: translate(-50%, -50%);
+  font-family: "Niramit", sans-serif;
+  font-weight: 500;
+  color: var(--menu-color);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-align: center;
+  font-size: clamp(12px, 1.5vw, 19px);
+  line-height: 1.4;
+  padding: 3px 10px;
+  transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+.menu a:hover,
+.menu a:focus-visible {
+  color: var(--menu-hover);
+  text-shadow:
+    0 0 8px rgba(87, 194, 255, 0.9),
+    0 0 18px rgba(87, 194, 255, 0.5);
+}
+
+.menu a:focus-visible {
+  outline: 1px solid var(--menu-hover);
+  outline-offset: 3px;
+}
+
+/* ตำแหน่งหัวข้อย่อย (6 รายการ) */
+.item-1 { top: 38%; }
+.item-2 { top: 45.5%; }
+.item-3 { top: 53%; }
+.item-4 { top: 60.5%; }
+.item-5 { top: 68%; }
+.item-6 { top: 75.5%; }
+
+/* จอแคบ: กรอบอยู่กลางจอ ตะแลงแกงจางลงอยู่ด้านหลัง */
+@media (max-width: 820px) {
+  :root {
+    --menu-x: 50%;
+  }
+
+  .bg-card {
+    left: 6%;
+    width: 88%;
+  }
+
+  .bg .gallows,
+  .bg .bg-word {
+    opacity: 0.3;
+  }
+
+  .page-title {
+    font-size: clamp(14px, 3.4vw, 22px);
+  }
+
+  .menu a {
+    font-size: clamp(11px, 2.6vw, 17px);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: clamp(13px, 4vw, 18px);
+  }
+
+  .menu a {
+    font-size: clamp(10px, 3.2vw, 14px);
+    padding: 2px 4px;
+  }
+}
